@@ -32,9 +32,16 @@ if __name__ == '__main__':
         presenter = boundary_to_presenter(post)
         list_of_presenters.append(presenter)
 
-    listWidget.resize(300, 120)
+    font = QFont('arial')
+
+    listWidget.resize(400, 320)
     for post in list_of_presenters:
-        listWidget.addItem(post.title)
+        item = QListWidgetItem(post.title)
+        item.setForeground(QColor(post.title_color))
+        font.setPointSize(15)
+        item.setFont(font)
+        listWidget.addItem(item)
+
 
     listWidget.setWindowTitle('QListwidget Example')
     listWidget.itemClicked.connect(listWidget.clicked)
