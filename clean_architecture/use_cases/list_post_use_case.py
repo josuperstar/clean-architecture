@@ -1,10 +1,10 @@
-from clean_architecture.use_cases.business_entity_gateway import BusinessEntityGateway
+from clean_architecture.use_cases.use_case import UseCases
 from clean_architecture.use_cases.post_boundary import PostBoundary
 
-class ListPostUseCases(object):
+
+class ListPostUseCases(UseCases):
     def __init__(self, gateway):
-        gateway: BusinessEntityGateway
-        self._gateway = gateway
+        super().__init__(gateway)
 
     def execute(self):
         print('List post use case')

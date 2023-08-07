@@ -5,7 +5,7 @@ from werkzeug.exceptions import abort
 from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
 from clean_architecture.adapters.ORM.post import PostModel
 from clean_architecture.adapters.presenters.post import PostPresenter
-from clean_architecture.adapters.sql_adapter import SqlGateway
+from clean_architecture.adapters.sql_lite.sql_adapter import SqlGateway
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'

@@ -1,9 +1,8 @@
 import sys
-from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
-from clean_architecture.adapters.sql_adapter import SqlGateway
+from adapters.sql_lite.sql_adapter import SqlGateway
 from clean_architecture.adapters.presenters.post import PostPresenter
 from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
 

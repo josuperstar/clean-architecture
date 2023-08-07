@@ -1,3 +1,5 @@
+import os
+
 import sqlite3
 
 from clean_architecture.adapters.ORM.post import PostModel
@@ -6,7 +8,8 @@ from clean_architecture.use_cases.business_entity_gateway import BusinessEntityG
 
 def get_db_connection():
     print('get db connection')
-    database = r"C:\sqllite\database.db"
+    directory = os.path.dirname(__file__)
+    database = r"{}\database.db".format(directory)
     conn = sqlite3.connect(database)
     conn.row_factory = sqlite3.Row
     return conn
