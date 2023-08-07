@@ -1,8 +1,7 @@
 from datetime import datetime
 
 
-class PostModel(object):
-    id: int
+class PostPresenter(object):
     created: datetime
     title: str
     content: str

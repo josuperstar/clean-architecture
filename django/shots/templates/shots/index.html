@@ -1,9 +1,0 @@
-{% if latest_question_list %}
-    <ul>
-    {% for shot in latest_question_list %}
-        <li>{{ shot.shot_name }} - {{ shot.get_complexity }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No shots are available.</p>
-{% endif %}
