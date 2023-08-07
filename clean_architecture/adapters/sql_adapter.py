@@ -6,7 +6,8 @@ from clean_architecture.use_cases.business_entity_gateway import BusinessEntityG
 
 def get_db_connection():
     print('get db connection')
-    conn = sqlite3.connect('database.db')
+    database = r"C:\sqllite\database.db"
+    conn = sqlite3.connect(database)
     conn.row_factory = sqlite3.Row
     return conn
 
