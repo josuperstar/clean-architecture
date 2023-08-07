@@ -1,7 +1,6 @@
-from datetime import datetime
+from clean_architecture.use_cases.post_boundary import PostBoundary
 
 
-class PostPresenter(object):
-    created: datetime
-    title: str
-    content: str
+class PostPresenter(PostBoundary):
+    title_size = 'big'
+    title_color = 'green'

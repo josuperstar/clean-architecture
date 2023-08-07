@@ -11,3 +11,6 @@ class BusinessEntityGateway(object):
 
     def update_post(self, post):
         pass
+
+    def delete_post(self, post_id):
+        pass

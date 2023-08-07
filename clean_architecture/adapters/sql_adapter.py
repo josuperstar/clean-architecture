@@ -60,3 +60,9 @@ class SqlGateway(BusinessEntityGateway):
                      (post.title, post.content, post.id))
         conn.commit()
         conn.close()
+
+    def delete_post(self, post_id):
+        conn = get_db_connection()
+        conn.execute('DELETE FROM posts WHERE id = ?', (post_id,))
+        conn.commit()
+        conn.close()

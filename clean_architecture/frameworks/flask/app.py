@@ -4,17 +4,31 @@ from werkzeug.exceptions import abort
 
 from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
 from clean_architecture.adapters.ORM.post import PostModel
-from clean_architecture.adapters.sql_adapter import SqlGateway, get_db_connection
+from clean_architecture.adapters.presenters.post import PostPresenter
+from clean_architecture.adapters.sql_adapter import SqlGateway
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 database = SqlGateway()
 
+
+def boundary_to_presenter(boundary):
+    presenter = PostPresenter()
+    presenter.id = boundary.id
+    presenter.title = boundary.title
+    presenter.content = boundary.content
+    presenter.title_size = 'h3'
+    return presenter
+
 @app.route('/')
 def index():
     list_post = ListPostUseCases(database)
     posts = list_post.execute()
-    return render_template('index.html', posts=posts)
+    list_of_presenters = list()
+    for post in posts:
+        presenter = boundary_to_presenter(post)
+        list_of_presenters.append(presenter)
+    return render_template('index.html', posts=list_of_presenters)
 
 
 @app.route('/<int:post_id>')
@@ -23,7 +37,6 @@ def post(post_id):
     if post is None:
         abort(404)
     return render_template('post.html', post=post)
-
 
 @app.route('/create', methods=('GET', 'POST'))
 def create():
@@ -65,9 +78,6 @@ def edit(id):
 @app.route('/<int:id>/delete', methods=('POST',))
 def delete(id):
     post = database.get_post(id)
-    conn = get_db_connection()
-    conn.execute('DELETE FROM posts WHERE id = ?', (id,))
-    conn.commit()
-    conn.close()
+    database.delete_post(id)
     flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))
