@@ -3,6 +3,7 @@ from werkzeug.exceptions import abort
 
 
 from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
+from clean_architecture.use_cases.create_shot_use_case import CreateShotUseCases
 from clean_architecture.adapters.ORM.shot import ShotModel
 from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.adapters.sql_lite.sql_adapter import SqlGateway
@@ -18,6 +19,7 @@ def boundary_to_presenter(boundary):
     presenter.title = boundary.title
     presenter.description = boundary.description
     presenter.title_size = 'h3'
+    presenter.title_is_correct = boundary.title_is_correct
     return presenter
 
 @app.route('/')
@@ -41,16 +43,21 @@ def post(post_id):
 @app.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
+        shot_info = ShotModel()
         title = request.form['title']
-        description = request.form['description']
-        post = ShotModel()
-        post.title = title
-        post.description = description
+        shot_info.title = title
         if not title:
             flash('Title is required!')
         else:
-            database.create_shot(post)
-            return redirect(url_for('index'))
+            description = request.form['description']
+            shot_info.description = description
+            create_shot = CreateShotUseCases(database)
+            create_shot.set_shot_info(shot_info)
+            try:
+                create_shot.execute()
+                return redirect(url_for('index'))
+            except Exception as e:
+                flash(e)
 
     return render_template('create.html')
 
@@ -79,5 +86,5 @@ def edit(id):
 def delete(id):
     post = database.get_shot(id)
     database.delete_shot(id)
-    flash('"{}" was successfully deleted!'.format(post['title']))
+    flash('"{}" was successfully deleted!'.format(post.title))
     return redirect(url_for('index'))
