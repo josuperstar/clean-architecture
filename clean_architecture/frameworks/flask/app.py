@@ -3,8 +3,8 @@ from werkzeug.exceptions import abort
 
 
 from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
-from clean_architecture.adapters.ORM.post import PostModel
-from clean_architecture.adapters.presenters.post import PostPresenter
+from clean_architecture.adapters.ORM.shot import ShotModel
+from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.adapters.sql_lite.sql_adapter import SqlGateway
 
 app = Flask(__name__)
@@ -13,10 +13,10 @@ database = SqlGateway()
 
 
 def boundary_to_presenter(boundary):
-    presenter = PostPresenter()
+    presenter = ShotPresenter()
     presenter.id = boundary.id
     presenter.title = boundary.title
-    presenter.content = boundary.content
+    presenter.description = boundary.description
     presenter.title_size = 'h3'
     return presenter
 
@@ -33,7 +33,7 @@ def index():
 
 @app.route('/<int:post_id>')
 def post(post_id):
-    post = database.get_post(post_id)
+    post = database.get_shot(post_id)
     if post is None:
         abort(404)
     return render_template('post.html', post=post)
@@ -42,14 +42,14 @@ def post(post_id):
 def create():
     if request.method == 'POST':
         title = request.form['title']
-        content = request.form['content']
-        post = PostModel()
+        description = request.form['description']
+        post = ShotModel()
         post.title = title
-        post.content = content
+        post.description = description
         if not title:
             flash('Title is required!')
         else:
-            database.create_post(post)
+            database.create_shot(post)
             return redirect(url_for('index'))
 
     return render_template('create.html')
@@ -57,19 +57,19 @@ def create():
 
 @app.route('/<int:id>/edit', methods=('GET', 'POST'))
 def edit(id):
-    post = database.get_post(id)
+    post = database.get_shot(id)
 
     if request.method == 'POST':
         title = request.form['title']
-        content = request.form['content']
-        post = PostModel()
+        description = request.form['description']
+        post = ShotModel()
         post.id = id
         post.title = title
-        post.content = content
+        post.description = description
         if not title:
             flash('Title is required!')
         else:
-            database.update_post(post)
+            database.update_shot(post)
             return redirect(url_for('index'))
 
     return render_template('edit.html', post=post)
@@ -77,7 +77,7 @@ def edit(id):
 
 @app.route('/<int:id>/delete', methods=('POST',))
 def delete(id):
-    post = database.get_post(id)
-    database.delete_post(id)
+    post = database.get_shot(id)
+    database.delete_shot(id)
     flash('"{}" was successfully deleted!'.format(post['title']))
     return redirect(url_for('index'))

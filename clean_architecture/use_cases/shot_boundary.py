@@ -1,8 +1,8 @@
 from datetime import datetime
 
 
-class PostModel(object):
+class ShotBoundary(object):
     id: int
     created: datetime
     title: str
-    content: str
+    description: str

@@ -3,16 +3,17 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 from adapters.sql_lite.sql_adapter import SqlGateway
-from clean_architecture.adapters.presenters.post import PostPresenter
+from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
 
 def boundary_to_presenter(boundary):
-    presenter = PostPresenter()
+    presenter = ShotPresenter()
     presenter.id = boundary.id
     presenter.title = boundary.title
-    presenter.content = boundary.content
+    presenter.description = boundary.description
     presenter.title_size = 'h3'
     return presenter
+
 
 class ListWidget(QListWidget):
     def clicked(self, item):

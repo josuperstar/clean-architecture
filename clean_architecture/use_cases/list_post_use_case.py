@@ -1,5 +1,6 @@
+from clean_architecture.adapters.ORM.shot import ShotModel
 from clean_architecture.use_cases.use_case import UseCases
-from clean_architecture.use_cases.post_boundary import PostBoundary
+from clean_architecture.use_cases.shot_boundary import ShotBoundary
 
 
 class ListPostUseCases(UseCases):
@@ -11,10 +12,11 @@ class ListPostUseCases(UseCases):
         post_boundaries = list()
         posts = self._gateway.get_post_list()
         for post in posts:
-            post_boundary = PostBoundary()
+            post: ShotModel
+            post_boundary = ShotBoundary()
             post_boundary.id = post.id
             post_boundary.title = post.title
-            post_boundary.content = post.content
+            post_boundary.description = post.description
             post_boundary.created = post.created
             post_boundaries.append(post_boundary)
         return post_boundaries

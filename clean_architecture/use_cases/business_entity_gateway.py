@@ -1,16 +1,16 @@
 class BusinessEntityGateway(object):
 
-    def get_post(self, post_id):
+    def get_shot(self, shot_id):
         pass
 
     def get_post_list(self):
         pass
 
-    def create_post(self, post):
+    def create_shot(self, shot):
         pass
 
-    def update_post(self, post):
+    def update_shot(self, shot):
         pass
 
-    def delete_post(self, post_id):
+    def delete_shot(self, shot_id):
         pass
