@@ -2,7 +2,7 @@ import os
 
 import sqlite3
 
-from clean_architecture.adapters.ORM.shot import ShotModel
+from clean_architecture.adapters.gateways.object_relational_mapping.shot import ShotModel
 from clean_architecture.use_cases.business_entity_gateway import BusinessEntityGateway
 
 

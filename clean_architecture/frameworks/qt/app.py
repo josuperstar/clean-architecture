@@ -2,7 +2,7 @@ import sys
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
-from adapters.sql_lite.sql_adapter import SqlGateway
+from clean_architecture.adapters.gateways.sql_lite.sql_adapter import SqlGateway
 from clean_architecture.adapters.controllers.shot_controller import *
 
 

@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
 from clean_architecture.use_cases.create_shot_use_case import CreateShotUseCases
-from clean_architecture.adapters.ORM.shot import ShotModel
-from clean_architecture.adapters.sql_lite.sql_adapter import SqlGateway
+from clean_architecture.adapters.gateways.object_relational_mapping.shot import ShotModel
+from clean_architecture.adapters.gateways.sql_lite.sql_adapter import SqlGateway
 from clean_architecture.adapters.controllers.shot_controller import *
 
 app = Flask(__name__)

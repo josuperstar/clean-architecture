@@ -1,5 +1,5 @@
 from clean_architecture.business_entities.shot import ShotEntity
-from clean_architecture.adapters.ORM.shot import ShotModel
+from clean_architecture.adapters.gateways.object_relational_mapping.shot import ShotModel
 from clean_architecture.use_cases.use_case import UseCases
 from clean_architecture.use_cases.shot_boundary import ShotBoundary
 

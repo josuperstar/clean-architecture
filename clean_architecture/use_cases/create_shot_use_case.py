@@ -1,7 +1,8 @@
 from clean_architecture.business_entities.shot import ShotEntity
-from clean_architecture.adapters.ORM.shot import ShotModel
+from clean_architecture.adapters.gateways.object_relational_mapping.shot import ShotModel
 from clean_architecture.use_cases.use_case import UseCases
 from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
+
 
 class CreateShotUseCases(UseCases):
     def __init__(self, gateway):
