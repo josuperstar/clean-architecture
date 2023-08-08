@@ -3,6 +3,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 from clean_architecture.frameworks.database.sql_lite.sql_adapter import SqlGateway
+from clean_architecture.frameworks.database.mysql.mysql_adapter import MySqlGateway
 from clean_architecture.adapters.controllers.shot_controller import *
 
 
@@ -12,7 +13,8 @@ class ListWidget(QListWidget):
 
 
 if __name__ == '__main__':
-    database = SqlGateway()
+    #database = SqlGateway()
+    database = MySqlGateway()
     app = QApplication(sys.argv)
     listWidget = ListWidget()
 

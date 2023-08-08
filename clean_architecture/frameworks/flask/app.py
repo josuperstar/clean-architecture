@@ -4,12 +4,13 @@ from werkzeug.exceptions import abort
 from clean_architecture.use_cases.create_shot_use_case import CreateShotUseCases
 from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.frameworks.database.sql_lite.sql_adapter import SqlGateway
+from clean_architecture.frameworks.database.mysql.mysql_adapter import MySqlGateway
 from clean_architecture.adapters.controllers.shot_controller import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
-database = SqlGateway()
-
+#database = SqlGateway()
+database = MySqlGateway()
 
 @app.route('/')
 def index():
