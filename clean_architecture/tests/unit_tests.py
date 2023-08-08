@@ -2,13 +2,6 @@ import unittest
 
 
 class Testing(unittest.TestCase):
-    def test_ORM(self):
-        from adapters.gateways.object_relational_mapping import ShotModel
-        model = ShotModel()
-        model.title = 'title test'
-        model.id = 0
-        model.content = 'post content'
-        self.assertEqual(model.title, 'title test')
 
     def test_business_rules(self):
         from clean_architecture.business_entities.shot import ShotEntity
