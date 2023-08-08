@@ -1,4 +1,4 @@
-from clean_architecture.use_cases.shot_boundary import ShotBoundary
+from clean_architecture.use_cases.boundary_objects.shot_boundary import ShotBoundary
 
 
 class ShotPresenter(ShotBoundary):

@@ -2,8 +2,8 @@ import os
 
 import sqlite3
 
-from clean_architecture.adapters.gateways.object_relational_mapping.shot import ShotModel
 from clean_architecture.use_cases.business_entity_gateway import BusinessEntityGateway
+from clean_architecture.business_entities.shot import ShotEntity
 
 
 def get_db_connection():
@@ -26,7 +26,7 @@ class SqlGateway(BusinessEntityGateway):
         if post_result is None:
             return None
 
-        post = ShotModel()
+        post = ShotEntity()
         post.id = post_result['id']
         post.created = post_result['created']
         post.title = post_result['title']
@@ -42,7 +42,7 @@ class SqlGateway(BusinessEntityGateway):
         posts = list()
         for post_result in posts_result:
             print(post_result)
-            post = ShotModel()
+            post = ShotEntity()
             post.id = post_result['id']
             post.created = post_result['created']
             post.title = post_result['title']

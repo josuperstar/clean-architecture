@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
 from clean_architecture.use_cases.create_shot_use_case import CreateShotUseCases
-from clean_architecture.adapters.gateways.object_relational_mapping.shot import ShotModel
-from clean_architecture.adapters.gateways.sql_lite.sql_adapter import SqlGateway
+from clean_architecture.business_entities.shot import ShotEntity
+from clean_architecture.frameworks.database.sql_lite.sql_adapter import SqlGateway
 from clean_architecture.adapters.controllers.shot_controller import *
 
 app = Flask(__name__)
@@ -28,7 +28,7 @@ def post(post_id):
 @app.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
-        shot_info = ShotModel()
+        shot_info = ShotEntity()
         title = request.form['title']
         shot_info.title = title
         if not title:
@@ -54,7 +54,7 @@ def edit(id):
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
-        post = ShotModel()
+        post = ShotEntity()
         post.id = id
         post.title = title
         post.description = description

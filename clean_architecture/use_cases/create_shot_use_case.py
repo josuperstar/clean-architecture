@@ -1,5 +1,5 @@
 from clean_architecture.business_entities.shot import ShotEntity
-from clean_architecture.adapters.gateways.object_relational_mapping.shot import ShotModel
+from clean_architecture.use_cases.boundary_objects.shot_boundary import ShotBoundary
 from clean_architecture.use_cases.use_case import UseCases
 from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
 
@@ -14,7 +14,7 @@ class CreateShotUseCases(UseCases):
         self._shot_info = shot_info
 
     def execute(self):
-        self._shot_info: ShotModel
+        self._shot_info: ShotBoundary
         shot_entity = ShotEntity()
         shot_entity.title = self._shot_info.title
         shot_entity.description = self._shot_info.description

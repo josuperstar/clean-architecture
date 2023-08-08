@@ -1,7 +1,6 @@
 from clean_architecture.business_entities.shot import ShotEntity
-from clean_architecture.adapters.gateways.object_relational_mapping.shot import ShotModel
 from clean_architecture.use_cases.use_case import UseCases
-from clean_architecture.use_cases.shot_boundary import ShotBoundary
+from clean_architecture.use_cases.boundary_objects.shot_boundary import ShotBoundary
 
 
 class ListPostUseCases(UseCases):
@@ -13,13 +12,10 @@ class ListPostUseCases(UseCases):
         post_boundaries = list()
         posts = self._gateway.get_post_list()
         for post in posts:
-            post: ShotModel
-
             shot_entity = ShotEntity()
             shot_entity.title = post.title
             shot_entity.description = post.description
             is_tittle_okay = shot_entity.title_sanity_check()
-            print('title has space {}'.format(is_tittle_okay))
             post_boundary = ShotBoundary()
             post_boundary.id = post.id
             post_boundary.title = post.title

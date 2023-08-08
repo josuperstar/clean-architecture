@@ -2,7 +2,7 @@ import sys
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
-from clean_architecture.adapters.gateways.sql_lite.sql_adapter import SqlGateway
+from clean_architecture.frameworks.database.sql_lite.sql_adapter import SqlGateway
 from clean_architecture.adapters.controllers.shot_controller import *
 
 
@@ -28,7 +28,6 @@ if __name__ == '__main__':
         font.setPointSize(15)
         item.setFont(font)
         listWidget.addItem(item)
-
 
     listWidget.setWindowTitle('QListwidget Example')
     listWidget.itemClicked.connect(listWidget.clicked)
