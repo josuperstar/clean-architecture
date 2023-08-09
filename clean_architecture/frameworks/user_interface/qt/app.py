@@ -13,8 +13,13 @@ class ListWidget(QListWidget):
 
 
 if __name__ == '__main__':
-    #database = SqlGateway()
-    database = MySqlGateway()
+
+    database = SqlGateway()
+    if len(sys.argv) == 2:
+        database_name = sys.argv[1]
+        if database_name == 'mysql':
+            database = MySqlGateway()
+
     app = QApplication(sys.argv)
     listWidget = ListWidget()
 
