@@ -10,7 +10,7 @@ class ListPostUseCases(UseCases):
     def execute(self):
         print('List post use case')
         post_boundaries = list()
-        posts = self._gateway.get_post_list()
+        posts = self._gateway.get_shot_list()
         for post in posts:
             shot_entity = ShotEntity()
             shot_entity.title = post.title

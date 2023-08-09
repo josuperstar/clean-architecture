@@ -24,7 +24,7 @@ class Testing(unittest.TestCase):
         shot_list = [shot_a]
 
         database = Mock()
-        database.get_post_list.return_value = shot_list
+        database.get_shot_list.return_value = shot_list
 
         controller = ShotController(database)
         result = controller.get_shot_list()

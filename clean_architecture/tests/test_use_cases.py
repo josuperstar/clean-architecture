@@ -10,7 +10,6 @@ from clean_architecture.use_cases.shot_management.update_shot_use_case import Up
 from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCases
 
 
-
 class Testing(unittest.TestCase):
 
     @staticmethod
@@ -28,7 +27,7 @@ class Testing(unittest.TestCase):
         shot_list = [shot_a]
 
         database = Mock()
-        database.get_post_list.return_value = shot_list
+        database.get_shot_list.return_value = shot_list
         use_case = ListPostUseCases(database)
         result = use_case.execute()
         self.assertEqual(len(result), 1)
@@ -40,7 +39,7 @@ class Testing(unittest.TestCase):
         shot_list = [shot_existing_one]
 
         database = Mock()
-        database.get_post_list.return_value = shot_list
+        database.get_shot_list.return_value = shot_list
 
         use_case = CreateShotUseCases(database)
         self.assertRaises(Exception, use_case.execute)

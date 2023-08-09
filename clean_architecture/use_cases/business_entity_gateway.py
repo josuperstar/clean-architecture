@@ -3,7 +3,7 @@ class BusinessEntityGateway(object):
     def get_shot(self, shot_id):
         pass
 
-    def get_post_list(self):
+    def get_shot_list(self):
         pass
 
     def create_shot(self, shot):

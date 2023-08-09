@@ -23,7 +23,7 @@ config = configparser.ConfigParser()
 directory = os.path.dirname(__file__)
 config_file = r"{}\config.ini".format(directory)
 config.read(config_file)
-database_info = config.get('database')
+database_info = config['database']
 database_name = database_info.get('name')
 if database_name == 'sqllite':
     database = SqlGateway()

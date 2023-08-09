@@ -43,7 +43,7 @@ class MySqlGateway(BusinessEntityGateway):
 
         return post
 
-    def get_post_list(self):
+    def get_shot_list(self):
 
         conn = get_db_connection()
         cursor = conn.cursor()

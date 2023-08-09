@@ -34,7 +34,7 @@ class SqlGateway(BusinessEntityGateway):
 
         return post
 
-    def get_post_list(self):
+    def get_shot_list(self):
 
         conn = get_db_connection()
         posts_result = conn.execute('SELECT * FROM shots').fetchall()

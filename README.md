@@ -1,10 +1,10 @@
 ## Requirements
-Python 3.8.1
-PySide 2
-Flask
+- Python 3.8.1
+- PySide 2
+- Flask
 
 ## Run Flask in Powershell
-cd clean-architecture\clean_architecture\frameworks\flask
+cd clean-architecture\clean_architecture\frameworks\user_interface\flask
 $env:FLASK_APP='app.py'
 
 flask run
