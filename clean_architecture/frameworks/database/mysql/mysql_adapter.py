@@ -8,7 +8,7 @@ import configparser
 
 
 def get_db_connection():
-
+    print('get mysql db connection')
     config = configparser.ConfigParser()
     directory = os.path.dirname(__file__)
     config_file = r"{}\config.ini".format(directory)

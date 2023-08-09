@@ -1,6 +1,7 @@
+import os
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
-
+import configparser
 from clean_architecture.use_cases.create_shot_use_case import CreateShotUseCases
 from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.frameworks.database.sql_lite.sql_adapter import SqlGateway
@@ -8,9 +9,21 @@ from clean_architecture.frameworks.database.mysql.mysql_adapter import MySqlGate
 from clean_architecture.adapters.controllers.shot_controller import *
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your secret key'
-#database = SqlGateway()
-database = MySqlGateway()
+use_sql_lite = True
+
+# Read config file to get the right database
+config = configparser.ConfigParser()
+directory = os.path.dirname(__file__)
+config_file = r"{}\config.ini".format(directory)
+config.read(config_file)
+database_info = config['database']
+database_name = database_info['name']
+if database_name == 'sqllite':
+    database = SqlGateway()
+elif database_name == 'mysql':
+    database = MySqlGateway()
+else:
+    exit()
 
 @app.route('/')
 def index():

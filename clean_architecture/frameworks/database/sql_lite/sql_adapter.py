@@ -7,7 +7,7 @@ from clean_architecture.business_entities.shot import ShotEntity
 
 
 def get_db_connection():
-    print('get db connection')
+    print('get sqllite db connection')
     directory = os.path.dirname(__file__)
     database = r"{}\database.db".format(directory)
     conn = sqlite3.connect(database)
