@@ -34,3 +34,4 @@ class CreateShotUseCases(UseCases):
         else:
             self._gateway.create_shot(self._shot_info)
 
+
