@@ -65,8 +65,8 @@ class SqlGateway(BusinessEntityGateway):
         conn.commit()
         conn.close()
 
-    def delete_shot(self, shot_id):
+    def delete_shot(self, shot):
         conn = get_db_connection()
-        conn.execute('DELETE FROM shots WHERE id = ?', (shot_id,))
+        conn.execute('DELETE FROM shots WHERE id = ?', (shot.id,))
         conn.commit()
         conn.close()

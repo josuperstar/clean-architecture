@@ -1,7 +1,7 @@
 from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.use_cases.boundary_objects.shot_boundary import ShotBoundary
 from clean_architecture.use_cases.use_case import UseCases
-from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
+from clean_architecture.use_cases.shot_management.list_post_use_case import ListPostUseCases
 
 
 class CreateShotUseCases(UseCases):
@@ -14,6 +14,9 @@ class CreateShotUseCases(UseCases):
         self._shot_info = shot_info
 
     def execute(self):
+        if not self._shot_info:
+            raise Exception('shot info was not provided')
+
         self._shot_info: ShotBoundary
         shot_entity = ShotEntity()
         shot_entity.title = self._shot_info.title

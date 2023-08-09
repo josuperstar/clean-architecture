@@ -78,9 +78,9 @@ class MySqlGateway(BusinessEntityGateway):
         conn.commit()
         conn.close()
 
-    def delete_shot(self, shot_id):
+    def delete_shot(self, shot):
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM element WHERE id = %s', (shot_id,))
+        cursor.execute('DELETE FROM element WHERE id = %s', (shot.id,))
         conn.commit()
         conn.close()

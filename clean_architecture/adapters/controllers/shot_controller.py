@@ -1,5 +1,5 @@
 from clean_architecture.adapters.presenters.shot import ShotPresenter
-from clean_architecture.use_cases.list_post_use_case import ListPostUseCases
+from clean_architecture.use_cases.shot_management.list_post_use_case import ListPostUseCases
 
 
 def boundary_to_presenter(boundary):
