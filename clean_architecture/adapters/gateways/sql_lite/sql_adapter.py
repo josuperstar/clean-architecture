@@ -1,28 +1,21 @@
-import os
-
-import sqlite3
 
 from clean_architecture.use_cases.business_entity_gateway import BusinessEntityGateway
 from clean_architecture.business_entities.shot import ShotEntity
 
 
-def get_db_connection():
-    print('get sqllite db connection')
-    directory = os.path.dirname(__file__)
-    database = r"{}\database.db".format(directory)
-    conn = sqlite3.connect(database)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
 class SqlGateway(BusinessEntityGateway):
 
+    def get_connection(self):
+        raise NotImplemented
+
     def get_shot(self, shot_id):
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
         print('get post')
-        conn = get_db_connection()
-        post_result = conn.execute('SELECT * FROM shots WHERE id = ?',
+        post_result = connection.execute('SELECT * FROM shots WHERE id = ?',
                             (shot_id,)).fetchone()
-        conn.close()
+        connection.close()
         if post_result is None:
             return None
 
@@ -37,10 +30,11 @@ class SqlGateway(BusinessEntityGateway):
         return post
 
     def get_shot_list(self):
-
-        conn = get_db_connection()
-        posts_result = conn.execute('SELECT * FROM shots').fetchall()
-        conn.close()
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        posts_result = connection.execute('SELECT * FROM shots').fetchall()
+        connection.close()
         posts = list()
         for post_result in posts_result:
             print(post_result)
@@ -56,22 +50,28 @@ class SqlGateway(BusinessEntityGateway):
         return posts
 
     def create_shot(self, shot):
-        conn = get_db_connection()
-        conn.execute('INSERT INTO shots (title, description, budget, cost) VALUES (?, ?, ?, ?)',
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        connection.execute('INSERT INTO shots (title, description, budget, cost) VALUES (?, ?, ?, ?)',
                      (shot.title, shot.description, 0, 0))
-        conn.commit()
-        conn.close()
+        connection.commit()
+        connection.close()
 
     def update_shot(self, shot):
-        conn = get_db_connection()
-        conn.execute('UPDATE shots SET title = ?, description = ?'
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        connection.execute('UPDATE shots SET title = ?, description = ?'
                      ' WHERE id = ?',
                      (shot.title, shot.description, shot.id))
-        conn.commit()
-        conn.close()
+        connection.commit()
+        connection.close()
 
     def delete_shot(self, shot):
-        conn = get_db_connection()
-        conn.execute('DELETE FROM shots WHERE id = ?', (shot.id,))
-        conn.commit()
-        conn.close()
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        connection.execute('DELETE FROM shots WHERE id = ?', (shot.id,))
+        connection.commit()
+        connection.close()

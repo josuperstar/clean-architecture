@@ -1,6 +1,3 @@
-
-from clean_architecture.frameworks.database.mysql.mysql_adapter import *
-
 connection = get_db_connection()
 
 cursor = connection.cursor()

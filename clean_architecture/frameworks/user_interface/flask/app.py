@@ -3,17 +3,14 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 import configparser
 
-from clean_architecture.business_entities.shot import ShotEntity
-
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCases
 from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCases
 from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCases
-from clean_architecture.use_cases.shot_management.show_shot_detail_use_case import ShowShotDetailUseCases
 
 from clean_architecture.adapters.controllers.shot_controller import *
 
-from clean_architecture.frameworks.database.sql_lite.sql_adapter import SqlGateway
-from clean_architecture.frameworks.database.mysql.mysql_adapter import MySqlGateway
+from clean_architecture.frameworks.database.sqllite.sqllite_database import SqlLiteDatabase
+from clean_architecture.frameworks.database.mysql.mysql_database import MySqlDatabase
 
 
 app = Flask(__name__)
@@ -27,11 +24,11 @@ config.read(config_file)
 database_info = config['database']
 database_name = database_info.get('name')
 if database_name == 'sqllite':
-    database = SqlGateway()
+    database = SqlLiteDatabase()
 elif database_name == 'mysql':
-    database = MySqlGateway()
+    database = MySqlDatabase()
 else:
-    database = SqlGateway()
+    database = SqlLiteDatabase()
 
 @app.route('/')
 def index():
