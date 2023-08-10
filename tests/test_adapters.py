@@ -5,6 +5,7 @@ from unittest.mock import Mock
 
 from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.adapters.presenters.shot import ShotPresenter
+from clean_architecture.adapters.presenters.finance_shot import FinanceShotPresenter
 from clean_architecture.adapters.controllers.shot_controller import ShotController
 
 
@@ -17,6 +18,8 @@ class Testing(unittest.TestCase):
         shot_a.title = 'testA'
         shot_a.description = 'description test'
         shot_a.created = datetime.datetime.now()
+        shot_a.cost = 200
+        shot_a.budget = 100
 
         return shot_a
 
@@ -46,9 +49,9 @@ class Testing(unittest.TestCase):
 
         result = controller.get_shot_list_with_financial_data()
         self.assertEqual(len(result), 1)
-        shot_presenter: ShotPresenter
+        shot_presenter: FinanceShotPresenter
         shot_presenter = result[0]
-        self.assertEqual(shot_presenter.title_color, 'green')
+        self.assertEqual(shot_presenter.title_color, 'red')
 
 
 if __name__ == '__main__':
