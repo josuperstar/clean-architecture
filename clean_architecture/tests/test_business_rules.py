@@ -9,6 +9,8 @@ class Testing(unittest.TestCase):
 
         shot_a = ShotEntity()
         shot_a.title = 'testA'
+        shot_a.cost = 100
+        shot_a.budget = 200
 
         shot_b = ShotEntity()
         shot_b.title = 'test B'
@@ -23,6 +25,8 @@ class Testing(unittest.TestCase):
         self.assertTrue(title_is_correct)
         title_is_not_correct = shot_b.title_sanity_check()
         self.assertFalse(title_is_not_correct)
+        is_over_budget = shot_a.is_over_budget()
+        self.assertFalse(is_over_budget)
 
 
 if __name__ == '__main__':

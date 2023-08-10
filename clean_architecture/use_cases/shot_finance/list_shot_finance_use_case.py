@@ -19,6 +19,6 @@ class ListShotFianceUseCases(UseCases):
             post_boundary.description = post.description
             post_boundary.cost = post.cost
             post_boundary.budget = post.budget
-
+            post_boundary.is_over_budget = post.is_over_budget()
             post_boundaries.append(post_boundary)
         return post_boundaries

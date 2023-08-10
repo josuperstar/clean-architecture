@@ -20,6 +20,9 @@ class ShotEntity(object):
             return False
         return True
 
+    def is_over_budget(self):
+        return self.cost > self.budget
+
     def __str__(self):
         return "{} {} {} {} {}".format(
             self.id,

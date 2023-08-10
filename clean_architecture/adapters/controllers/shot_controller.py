@@ -27,6 +27,7 @@ def finance_boundary_to_presenter(boundary):
     presenter.description = boundary.description
     presenter.cost = boundary.cost
     presenter.budget = boundary.budget
+    presenter.is_over_budget = boundary.is_over_budget
     return presenter
 
 

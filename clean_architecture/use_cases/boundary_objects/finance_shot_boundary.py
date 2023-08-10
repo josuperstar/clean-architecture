@@ -10,6 +10,6 @@ class FinanceShotBoundary(object):
         self.description = str()
         self.cost = int()
         self.budget = int()
-        self.title = 'no_title'
-
+        self.title = str()
+        self.is_over_budget = bool()
 

@@ -9,6 +9,8 @@ class FinanceShotPresenter(FinanceShotBoundary):
 
     @property
     def title_color(self):
+        if self.is_over_budget:
+            return 'red'
         return 'blue'
 
     def __str__(self):
@@ -17,5 +19,6 @@ class FinanceShotPresenter(FinanceShotBoundary):
             self.title,
             self.created,
             self.cost,
-            self.budget
+            self.budget,
+            self.is_over_budget
         )
