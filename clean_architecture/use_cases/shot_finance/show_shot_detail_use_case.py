@@ -18,10 +18,6 @@ class ShowShotFinanceDetailUseCases(UseCases):
         shot: ShotEntity
         shot = self._gateway.get_shot(self._shot_info.id)
 
-        shot_entity = ShotEntity()
-        shot_entity.title = shot.title
-        shot_entity.description = shot.description
-
         post_boundary = FinanceShotBoundary()
         post_boundary.id = shot.id
         post_boundary.title = shot.title
