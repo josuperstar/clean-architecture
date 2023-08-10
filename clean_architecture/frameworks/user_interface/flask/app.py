@@ -8,6 +8,7 @@ from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCases
 from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCases
 from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCases
+from clean_architecture.use_cases.shot_management.show_shot_detail_use_case import ShowShotDetailUseCases
 
 from clean_architecture.adapters.controllers.shot_controller import *
 
@@ -39,12 +40,30 @@ def index():
     return render_template('index.html', posts=list_of_presenters)
 
 
+@app.route('/accounting')
+def accounting():
+    shot_controller = ShotController(database)
+    list_of_presenters = shot_controller.get_shot_list_with_financial_data()
+    return render_template('accounting_index.html', posts=list_of_presenters)
+
+
 @app.route('/<int:post_id>')
 def post(post_id):
-    post = database.get_shot(post_id)
-    if post is None:
+    shot_controller = ShotController(database)
+    shot = shot_controller.get_shot(post_id)
+    if shot is None:
         abort(404)
-    return render_template('post.html', post=post)
+    return render_template('post.html', post=shot)
+
+
+@app.route('/accounting/<int:post_id>')
+def accounting_shot(post_id):
+    # post = database.get_shot(post_id)
+    shot_controller = ShotController(database)
+    shot = shot_controller.get_finance_shot(post_id)
+    if shot is None:
+        abort(404)
+    return render_template('accounting_shot.html', post=shot)
 
 
 @app.route('/create', methods=('GET', 'POST'))

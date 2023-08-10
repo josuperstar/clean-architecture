@@ -4,6 +4,7 @@ from copy import copy
 from unittest.mock import Mock
 
 from clean_architecture.business_entities.shot import ShotEntity
+from clean_architecture.use_cases.shot_management.show_shot_detail_use_case import ShowShotDetailUseCases
 from clean_architecture.use_cases.shot_management.list_post_use_case import ListPostUseCases
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCases
 from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCases
@@ -22,7 +23,20 @@ class Testing(unittest.TestCase):
 
         return shot_a
 
-    def test_list_shot_use_case(self):
+    def test_show_shot_detail_use_case(self):
+        shot_a = self.get_shot_test()
+
+        shot_info = ShotEntity()
+        shot_info.id = 0
+
+        database = Mock()
+        database.get_shot.return_value = shot_a
+        use_case = ShowShotDetailUseCases(database)
+        use_case.set_shot_info(shot_info)
+        result = use_case.execute()
+        self.assertEqual(result.title, shot_a.title)
+
+    def test_list_shots_use_case(self):
         shot_a = self.get_shot_test()
         shot_list = [shot_a]
 

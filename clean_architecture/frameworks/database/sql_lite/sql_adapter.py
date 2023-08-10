@@ -31,6 +31,8 @@ class SqlGateway(BusinessEntityGateway):
         post.created = post_result['created']
         post.title = post_result['title']
         post.description = post_result['description']
+        post.cost = post_result['cost']
+        post.budget = post_result['budget']
 
         return post
 
@@ -47,13 +49,16 @@ class SqlGateway(BusinessEntityGateway):
             post.created = post_result['created']
             post.title = post_result['title']
             post.description = post_result['description']
+            post.cost = post_result['cost']
+            post.budget = post_result['budget']
+
             posts.append(post)
         return posts
 
     def create_shot(self, shot):
         conn = get_db_connection()
-        conn.execute('INSERT INTO shots (title, description) VALUES (?, ?)',
-                     (shot.title, shot.description))
+        conn.execute('INSERT INTO shots (title, description, budget, cost) VALUES (?, ?, ?, ?)',
+                     (shot.title, shot.description, 0, 0))
         conn.commit()
         conn.close()
 

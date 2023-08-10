@@ -13,3 +13,4 @@ class ShotPresenter(ShotBoundary):
         if not self.title_is_correct:
             return 'red'
         return 'green'
+

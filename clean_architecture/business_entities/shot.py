@@ -4,6 +4,8 @@ from datetime import datetime
 class ShotEntity(object):
     id: int
     created: datetime
+    cost: int
+    budget: int
     title: str
     description: str
 
