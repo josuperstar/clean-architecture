@@ -61,6 +61,7 @@ class Testing(unittest.TestCase):
         use_case.set_shot_info(shot_info)
         result = use_case.execute()
         self.assertEqual(result.cost, shot_a.cost)
+        self.assertFalse(result.is_over_budget)
 
     def test_create_shot_use_case(self):
         shot_a = self.get_shot_test()

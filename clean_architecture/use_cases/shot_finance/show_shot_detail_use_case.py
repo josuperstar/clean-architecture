@@ -25,5 +25,6 @@ class ShowShotFinanceDetailUseCases(UseCases):
         post_boundary.created = shot.created
         post_boundary.cost = shot.cost
         post_boundary.budget = shot.budget
+        post_boundary.is_over_budget = shot.is_over_budget()
 
         return post_boundary
