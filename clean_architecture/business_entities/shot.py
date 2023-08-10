@@ -19,3 +19,12 @@ class ShotEntity(object):
         if ' ' in self.title:
             return False
         return True
+
+    def __str__(self):
+        return "{} {} {} {} {}".format(
+            self.id,
+            self.title,
+            self.created,
+            self.cost,
+            self.budget
+        )

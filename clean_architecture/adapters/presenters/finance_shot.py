@@ -11,3 +11,11 @@ class FinanceShotPresenter(FinanceShotBoundary):
     def title_color(self):
         return 'blue'
 
+    def __str__(self):
+        return "{} {} {} {} {}".format(
+            self.id,
+            self.title,
+            self.created,
+            self.cost,
+            self.budget
+        )

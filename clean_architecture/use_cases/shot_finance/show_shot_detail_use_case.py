@@ -15,17 +15,19 @@ class ShowShotFinanceDetailUseCases(UseCases):
         if not self._shot_info:
             raise Exception('shot info was not provided')
 
+        shot: ShotEntity
         shot = self._gateway.get_shot(self._shot_info.id)
 
         shot_entity = ShotEntity()
         shot_entity.title = shot.title
         shot_entity.description = shot.description
-        is_tittle_okay = shot_entity.title_sanity_check()
+
         post_boundary = FinanceShotBoundary()
         post_boundary.id = shot.id
         post_boundary.title = shot.title
         post_boundary.description = shot.description
         post_boundary.created = shot.created
-        post_boundary.title_is_correct = is_tittle_okay
+        post_boundary.cost = shot.cost
+        post_boundary.budget = shot.budget
 
         return post_boundary
