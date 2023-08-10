@@ -40,6 +40,8 @@ class MySqlGateway(BusinessEntityGateway):
         post.created = post_result[1]
         post.title = post_result[2]
         post.description = post_result[3]
+        post.cost = post_result[4]
+        post.budget = post_result[5]
 
         return post
 
@@ -58,6 +60,8 @@ class MySqlGateway(BusinessEntityGateway):
             post.created = post_result[1]
             post.title = post_result[2]
             post.description = post_result[3]
+            post.cost = post_result[4]
+            post.budget = post_result[5]
             posts.append(post)
         return posts
 
