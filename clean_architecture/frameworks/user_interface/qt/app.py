@@ -9,7 +9,10 @@ from clean_architecture.adapters.controllers.shot_controller import *
 
 class ListWidget(QListWidget):
     def clicked(self, item):
-        QMessageBox.information(self, "ListWidget", "ListWidget: " + item.text())
+        shot = item.data(Qt.UserRole)
+        print(shot)
+        QMessageBox.information(self, "Shot Information",
+                                "title: {} \ndescription: {}".format(shot.title, shot.description))
 
 
 if __name__ == '__main__':
@@ -32,6 +35,7 @@ if __name__ == '__main__':
     for post in list_of_presenters:
         item = QListWidgetItem(post.title)
         item.setForeground(QColor(post.title_color))
+        item.setData(Qt.UserRole, post)
         font.setPointSize(15)
         item.setFont(font)
         listWidget.addItem(item)
