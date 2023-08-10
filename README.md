@@ -22,3 +22,6 @@ flask run
 Add the project folder to the python path, then run:
 
 python clean-architecture\clean_architecture\frameworks\user_interface\qt\app.py
+
+## UML
+![uml.png](uml.png)
