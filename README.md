@@ -11,16 +11,17 @@ impact on the core implementation of the tool, proving that we can
 keep the volatile details outside the core in an easy fashion.
 
 ## Fictional tool and its requirements
-The demo project is fictional tool for VFX artists and the finance department.
+The demo project is a fictional tool for a VFX studio.
+The users are artist managers and the finance department.
 
 The **business rules** are that the shots need to follow a specific nomenclature.
 Also, it needs to show if it is over budget or not.
 
 The **use cases** are that artists should be able to list, create, edit and delete shots.
 
-We need to have a **view** for artists and another one for finance. 
-Technically, we don't want to share financial information with artists.
-The color coding required by both finance and artists are different for the shot listing. 
+We need to have a **view** for artist managers and another one for finance. 
+Technically, we don't want to share financial information with artist managers.
+The color coding required by both finance and artist managers are different for the shot listing. 
 
 In terms of **framework**, the tool should be able to run as a standalone and a webpage.
 The database will be migrated soon to a new database with a new schema, 
