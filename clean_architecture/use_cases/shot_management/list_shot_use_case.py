@@ -1,9 +1,9 @@
 from clean_architecture.business_entities.shot import ShotEntity
-from clean_architecture.use_cases.use_case import UseCases
+from clean_architecture.use_cases.use_case import UseCase
 from clean_architecture.use_cases.boundary_objects.shot_boundary import ShotBoundary
 
 
-class ListPostUseCases(UseCases):
+class ListShotUseCase(UseCase):
     def __init__(self, gateway):
         super().__init__(gateway)
 

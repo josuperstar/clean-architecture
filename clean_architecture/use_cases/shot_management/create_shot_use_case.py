@@ -1,10 +1,10 @@
 from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.use_cases.boundary_objects.shot_boundary import ShotBoundary
-from clean_architecture.use_cases.use_case import UseCases
-from clean_architecture.use_cases.shot_management.list_post_use_case import ListPostUseCases
+from clean_architecture.use_cases.use_case import UseCase
+from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
 
 
-class CreateShotUseCases(UseCases):
+class CreateShotUseCase(UseCase):
     def __init__(self, gateway):
         super().__init__(gateway)
 
@@ -22,7 +22,7 @@ class CreateShotUseCases(UseCases):
         shot_entity.title = self._shot_info.title
         shot_entity.description = self._shot_info.description
 
-        list_existing_shots = ListPostUseCases(self._gateway)
+        list_existing_shots = ListShotUseCase(self._gateway)
         existing_shots = list_existing_shots.execute()
         is_unique = shot_entity.check_if_title_is_unique(existing_shots)
 

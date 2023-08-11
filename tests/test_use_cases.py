@@ -4,12 +4,12 @@ from copy import copy
 from unittest.mock import Mock
 
 from clean_architecture.business_entities.shot import ShotEntity
-from clean_architecture.use_cases.shot_management.show_shot_detail_use_case import ShowShotDetailUseCases
-from clean_architecture.use_cases.shot_management.list_post_use_case import ListPostUseCases
-from clean_architecture.use_cases.shot_finance.show_shot_detail_use_case import ShowShotFinanceDetailUseCases
-from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCases
-from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCases
-from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCases
+from clean_architecture.use_cases.shot_management.show_shot_detail_use_case import ShowShotDetailUseCase
+from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
+from clean_architecture.use_cases.shot_finance.show_shot_detail_use_case import ShowShotFinanceDetailUseCase
+from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
+from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCase
+from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
 
 
 class Testing(unittest.TestCase):
@@ -34,7 +34,7 @@ class Testing(unittest.TestCase):
 
         database = Mock()
         database.get_shot.return_value = shot_a
-        use_case = ShowShotDetailUseCases(database)
+        use_case = ShowShotDetailUseCase(database)
         use_case.set_shot_info(shot_info)
         result = use_case.execute()
         self.assertEqual(result.title, shot_a.title)
@@ -45,7 +45,7 @@ class Testing(unittest.TestCase):
 
         database = Mock()
         database.get_shot_list.return_value = shot_list
-        use_case = ListPostUseCases(database)
+        use_case = ListShotUseCase(database)
         result = use_case.execute()
         self.assertEqual(len(result), 1)
 
@@ -57,7 +57,7 @@ class Testing(unittest.TestCase):
 
         database = Mock()
         database.get_shot.return_value = shot_a
-        use_case = ShowShotFinanceDetailUseCases(database)
+        use_case = ShowShotFinanceDetailUseCase(database)
         use_case.set_shot_info(shot_info)
         result = use_case.execute()
         self.assertEqual(result.cost, shot_a.cost)
@@ -72,7 +72,7 @@ class Testing(unittest.TestCase):
         database = Mock()
         database.get_shot_list.return_value = shot_list
 
-        use_case = CreateShotUseCases(database)
+        use_case = CreateShotUseCase(database)
         self.assertRaises(Exception, use_case.execute)
 
         use_case.set_shot_info(shot_a)

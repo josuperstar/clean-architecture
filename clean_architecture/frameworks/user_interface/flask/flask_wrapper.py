@@ -4,9 +4,9 @@ from werkzeug.exceptions import abort
 from clean_architecture.adapters.controllers.shot_controller import *
 
 from clean_architecture.frameworks.database.sqllite.sqllite_database import SqlLiteDatabase
-from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCases
-from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCases
-from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCases
+from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
+from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCase
+from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
 
 
 class FlaskAppWrapper(object):
@@ -57,7 +57,7 @@ class FlaskAppWrapper(object):
                 else:
                     description = request.form['description']
                     shot_info.description = description
-                    create_shot = CreateShotUseCases(database)
+                    create_shot = CreateShotUseCase(database)
                     create_shot.set_shot_info(shot_info)
                     try:
                         create_shot.execute()
@@ -81,7 +81,7 @@ class FlaskAppWrapper(object):
                     flash('Title is required!')
                 else:
 
-                    update_shot = UpdateShotUseCases(database)
+                    update_shot = UpdateShotUseCase(database)
                     update_shot.set_shot_info(shot)
                     update_shot.execute()
                     return redirect(url_for('index'))
@@ -91,7 +91,7 @@ class FlaskAppWrapper(object):
         @self.app.route('/<int:id>/delete', methods=('POST',))
         def delete(id):
             shot = database.get_shot(id)
-            delete_shot = DeleteShotUseCases(database)
+            delete_shot = DeleteShotUseCase(database)
             delete_shot.set_shot_info(shot)
             delete_shot.execute()
             flash('"{}" was successfully deleted!'.format(shot.title))

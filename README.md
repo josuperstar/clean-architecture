@@ -17,7 +17,7 @@ The users are artist managers and the finance department.
 The **business rules** are that the shots need to follow a specific nomenclature.
 Also, it needs to show if it is over budget or not.
 
-The **use cases** are that artists should be able to list, create, edit and delete shots.
+The **use cases** are that artist managers should be able to list, create, edit and delete shots.
 
 We need to have a **view** for artist managers and another one for finance. 
 Technically, we don't want to share financial information with artist managers.
