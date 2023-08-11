@@ -2,12 +2,14 @@ from datetime import datetime
 
 
 class ShotEntity(object):
-    id: int
-    created: datetime
-    cost: int
-    budget: int
-    title: str
-    description: str
+
+    def __init__(self):
+        self.id = int()
+        self.created = datetime
+        self.cost = 0
+        self.budget = 0
+        self.title = str()
+        self.description = str()
 
     def check_if_title_is_unique(self, existing_shots):
         for shot in existing_shots:
