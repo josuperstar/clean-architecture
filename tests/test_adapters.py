@@ -42,6 +42,8 @@ class Testing(unittest.TestCase):
         shot_info.title = 'test_title'
         shot_info.description = 'this is a description'
         controller.create_shot(shot_info)
+        shot_info.title = 'title_update'
+        controller.update_shot(shot_info)
         controller.delete_shot(shot_info)
 
 

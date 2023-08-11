@@ -2,10 +2,7 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
 from clean_architecture.adapters.controllers.shot_controller import *
-
 from clean_architecture.frameworks.database.sqllite.sqllite_database import SqlLiteDatabase
-from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCase
-from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
 
 
 class FlaskAppWrapper(object):
@@ -73,10 +70,7 @@ class FlaskAppWrapper(object):
                 if not title:
                     flash('Title is required!')
                 else:
-
-                    update_shot = UpdateShotUseCase(database)
-                    update_shot.set_shot_info(shot)
-                    update_shot.execute()
+                    self.shot_controller.update_shot(shot)
                     return redirect(url_for('index'))
 
             return render_template('edit.html', post=shot)
