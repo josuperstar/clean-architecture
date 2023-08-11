@@ -15,6 +15,32 @@ class ListWidget(QListWidget):
                                 "title: {} \ndescription: {}".format(shot.title, shot.description))
 
 
+class QtShotApplication(object):
+    def __init__(self, database):
+        app = QApplication(sys.argv)
+        listWidget = ListWidget()
+
+        shot_controller = ShotController(database)
+        list_of_presenters = shot_controller.get_shot_list()
+
+        font = QFont('arial')
+
+        listWidget.resize(400, 320)
+        for post in list_of_presenters:
+            item = QListWidgetItem(post.title)
+            item.setForeground(QColor(post.title_color))
+            item.setData(Qt.UserRole, post)
+            font.setPointSize(15)
+            item.setFont(font)
+            listWidget.addItem(item)
+
+        listWidget.setWindowTitle('QListwidget Example')
+        listWidget.itemClicked.connect(listWidget.clicked)
+
+        listWidget.show()
+        sys.exit(app.exec_())
+
+
 if __name__ == '__main__':
 
     database = SqlLiteDatabase()
@@ -23,25 +49,8 @@ if __name__ == '__main__':
         if database_name == 'mysql':
             database = MySqlDatabase()
 
-    app = QApplication(sys.argv)
-    listWidget = ListWidget()
+    qt_application = QtShotApplication(database)
 
-    shot_controller = ShotController(database)
-    list_of_presenters = shot_controller.get_shot_list()
 
-    font = QFont('arial')
 
-    listWidget.resize(400, 320)
-    for post in list_of_presenters:
-        item = QListWidgetItem(post.title)
-        item.setForeground(QColor(post.title_color))
-        item.setData(Qt.UserRole, post)
-        font.setPointSize(15)
-        item.setFont(font)
-        listWidget.addItem(item)
 
-    listWidget.setWindowTitle('QListwidget Example')
-    listWidget.itemClicked.connect(listWidget.clicked)
-
-    listWidget.show()
-    sys.exit(app.exec_())
