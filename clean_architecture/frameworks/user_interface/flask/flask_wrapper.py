@@ -11,8 +11,9 @@ from clean_architecture.use_cases.shot_management.delete_shot_use_case import De
 
 class FlaskAppWrapper(object):
 
-    def __init__(self, app, database):
-        self.app = app
+    def __init__(self, database):
+        flask_app = Flask(__name__)
+        self.app = flask_app
         self.app.config['SECRET_KEY'] = 'your secret key'
         self._database = database
 
@@ -101,7 +102,7 @@ class FlaskAppWrapper(object):
 
 
 if __name__ == "__main__":
-    flask_app = Flask(__name__)
+
     database = SqlLiteDatabase()
-    app = FlaskAppWrapper(flask_app, database)
+    app = FlaskAppWrapper(database)
     app.run(debug=True)
