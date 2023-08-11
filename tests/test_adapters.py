@@ -25,18 +25,25 @@ class Testing(unittest.TestCase):
 
     def test_shot_controller(self):
         shot_a = self.get_shot_test()
-        shot_list = [shot_a]
+        expected_shot_list = [shot_a]
 
         database = Mock()
-        database.get_shot_list.return_value = shot_list
+        database.get_shot_list.return_value = expected_shot_list
 
         controller = ShotController(database)
 
-        result = controller.get_shot_list()
-        self.assertEqual(len(result), 1)
+        shot_list = controller.get_shot_list()
+        self.assertEqual(len(shot_list), 1)
         shot_presenter: ShotPresenter
-        shot_presenter = result[0]
+        shot_presenter = shot_list[0]
         self.assertEqual(shot_presenter.title_color, 'green')
+
+        shot_info = ShotEntity()
+        shot_info.title = 'test_title'
+        shot_info.description = 'this is a description'
+        controller.create_shot(shot_info)
+        controller.delete_shot(shot_info)
+
 
     def test_shot_finance_controller(self):
         shot_a = self.get_shot_test()

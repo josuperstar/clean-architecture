@@ -4,7 +4,6 @@ from werkzeug.exceptions import abort
 from clean_architecture.adapters.controllers.shot_controller import *
 
 from clean_architecture.frameworks.database.sqllite.sqllite_database import SqlLiteDatabase
-from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
 from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCase
 from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
 
@@ -16,32 +15,28 @@ class FlaskAppWrapper(object):
         self.app = flask_app
         self.app.config['SECRET_KEY'] = 'your secret key'
         self._database = database
+        self.shot_controller = ShotController(database)
 
         @self.app.route('/')
         def index():
-            shot_controller = ShotController(database)
-            list_of_presenters = shot_controller.get_shot_list()
+            list_of_presenters = self.shot_controller.get_shot_list()
             return render_template('index.html', posts=list_of_presenters)
 
         @self.app.route('/accounting')
         def accounting():
-            shot_controller = ShotController(database)
-            list_of_presenters = shot_controller.get_shot_list_with_financial_data()
+            list_of_presenters = self.shot_controller.get_shot_list_with_financial_data()
             return render_template('accounting_index.html', posts=list_of_presenters)
 
         @self.app.route('/accounting/<int:post_id>')
         def accounting_shot(post_id):
-            # post = database.get_shot(post_id)
-            shot_controller = ShotController(database)
-            shot = shot_controller.get_finance_shot(post_id)
+            shot = self.shot_controller.get_finance_shot(post_id)
             if shot is None:
                 abort(404)
             return render_template('accounting_shot.html', post=shot)
 
         @self.app.route('/<int:post_id>')
         def post(post_id):
-            shot_controller = ShotController(database)
-            shot = shot_controller.get_shot(post_id)
+            shot = self.shot_controller.get_shot(post_id)
             if shot is None:
                 abort(404)
             return render_template('post.html', post=shot)
@@ -57,10 +52,8 @@ class FlaskAppWrapper(object):
                 else:
                     description = request.form['description']
                     shot_info.description = description
-                    create_shot = CreateShotUseCase(database)
-                    create_shot.set_shot_info(shot_info)
                     try:
-                        create_shot.execute()
+                        self.shot_controller.create_shot(shot_info)
                         return redirect(url_for('index'))
                     except Exception as e:
                         flash(e)
@@ -90,11 +83,9 @@ class FlaskAppWrapper(object):
 
         @self.app.route('/<int:id>/delete', methods=('POST',))
         def delete(id):
-            shot = database.get_shot(id)
-            delete_shot = DeleteShotUseCase(database)
-            delete_shot.set_shot_info(shot)
-            delete_shot.execute()
-            flash('"{}" was successfully deleted!'.format(shot.title))
+            shot_info = self.shot_controller.get_shot(id)
+            self.shot_controller.delete_shot(shot_info)
+            flash('"{}" was successfully deleted!'.format(shot_info.title))
             return redirect(url_for('index'))
 
     def run(self, **kwargs):

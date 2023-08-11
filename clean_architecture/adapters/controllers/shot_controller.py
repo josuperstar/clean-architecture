@@ -2,6 +2,8 @@ from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.adapters.presenters.finance_shot import FinanceShotPresenter
 from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
+from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
+from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
 from clean_architecture.use_cases.shot_management.show_shot_detail_use_case import ShowShotDetailUseCase
 from clean_architecture.use_cases.boundary_objects.finance_shot_boundary import FinanceShotBoundary
 from clean_architecture.use_cases.shot_finance.show_shot_detail_use_case import ShowShotFinanceDetailUseCase
@@ -44,6 +46,16 @@ class ShotController(object):
         shot = use_case.execute()
         presenter = boundary_to_presenter(shot)
         return presenter
+
+    def create_shot(self, shot_info):
+        create_shot_use_case = CreateShotUseCase(self._database)
+        create_shot_use_case.set_shot_info(shot_info)
+        create_shot_use_case.execute()
+
+    def delete_shot(self, shot_info):
+        delete_shot_use_case = DeleteShotUseCase(self._database)
+        delete_shot_use_case.set_shot_info(shot_info)
+        delete_shot_use_case.execute()
 
     def get_finance_shot(self, shot_id):
         shot_info = ShotEntity()
