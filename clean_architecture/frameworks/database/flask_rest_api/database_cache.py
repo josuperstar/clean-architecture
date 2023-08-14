@@ -1,7 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_caching import Cache
 from werkzeug.exceptions import abort
 
+from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.frameworks.database.sqllite.sqllite_database import SqlLiteDatabase
 
 
@@ -24,11 +25,20 @@ class FlaskCachingDatabase(object):
         @self.app.route('/<int:shot_id>')
         @self.cache.cached(timeout=50)
         def post(shot_id):
+            print('=================== CACHE SERVER ==================')
             print('getting real request')
+            shot: ShotEntity
             shot = self._database.get_shot(shot_id)
             if shot is None:
                 abort(404)
-            return render_template('shot.html', post=shot)
+            shot_dictionary = dict()
+            shot_dictionary['id'] = shot.id
+            shot_dictionary['title'] = shot.title
+            shot_dictionary['description'] = shot.description
+
+            print('result: {}'.format(shot_dictionary))
+
+            return shot_dictionary
 
     def run(self, **kwargs):
         self.app.run(**kwargs)
