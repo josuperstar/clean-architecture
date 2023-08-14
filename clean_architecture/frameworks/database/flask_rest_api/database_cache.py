@@ -43,9 +43,3 @@ class FlaskCachingDatabase(object):
     def run(self, **kwargs):
         self.app.run(**kwargs)
 
-
-if __name__ == "__main__":
-
-    database = SqlLiteDatabase()
-    app = FlaskCachingDatabase(database)
-    app.run(debug=True, port=8000)

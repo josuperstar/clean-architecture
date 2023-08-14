@@ -11,6 +11,7 @@ class FlaskCacheGateway(SqlGateway):
     def __init__(self):
         super().__init__()
         self._cached_database = FlaskCachingDatabase(self)
+        self._database_server_url = "http://127.0.0.1:8000"
 
     def get_connection(self):
         print('get sql lite db connection')
@@ -23,9 +24,12 @@ class FlaskCacheGateway(SqlGateway):
     def get_shot(self, shot_id):
         print('getting shot with rest api')
         import requests
-        url = "http://127.0.0.1:8000/{}".format(shot_id)
-        response = requests.get(url)
-        result = response.json()
+        url = "{}/{}".format(self._database_server_url, shot_id)
+        try:
+            response = requests.get(url)
+            result = response.json()
+        except ConnectionRefusedError as e:
+            raise
         print('converting dict into entity class')
         shot = ShotEntity()
         shot.id = result['id']
