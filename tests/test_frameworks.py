@@ -30,6 +30,22 @@ class Testing(unittest.TestCase):
         except ConnectionRefusedError as e:
             print('the database server is not running.')
 
+    def test_cached_shot_list(self):
+        """
+        This test works only when the flask database server is running
+        with at least one shot in the database.
+        """
+        print('test cached shot')
+        import requests
+
+        try:
+            url = "http://127.0.0.1:8000/shot_list"
+            print('testing with URL {}'.format(url))
+            response = requests.get(url)
+            print(response.text)
+        except ConnectionRefusedError as e:
+            print('the database server is not running.')
+
 
 if __name__ == '__main__':
     unittest.main()

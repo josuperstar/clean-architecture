@@ -3,14 +3,14 @@ import sqlite3
 
 from clean_architecture.adapters.gateways.sql_lite.sql_adapter import SqlGateway
 from clean_architecture.business_entities.shot import ShotEntity
-from clean_architecture.frameworks.database.flask_rest_api.database_cache import FlaskCachingDatabase
+from clean_architecture.frameworks.database.flask_rest_api.cache_database_server import FlaskCachingDatabaseServer
 
 
 class FlaskCacheGateway(SqlGateway):
 
     def __init__(self):
         super().__init__()
-        self._cached_database = FlaskCachingDatabase(self)
+        self._cached_database = FlaskCachingDatabaseServer(self)
         self._database_server_url = "http://127.0.0.1:8000"
 
     def get_connection(self):
@@ -38,48 +38,20 @@ class FlaskCacheGateway(SqlGateway):
         return shot
 
     def get_shot_list(self):
-        connection = self.get_connection()
-        if not connection:
-            raise Exception('connection not instantiated.')
-        posts_result = connection.execute('SELECT * FROM shots').fetchall()
-        connection.close()
-        posts = list()
-        for post_result in posts_result:
-            print(post_result)
-            post = ShotEntity()
-            post.id = post_result['id']
-            post.created = post_result['created']
-            post.title = post_result['title']
-            post.description = post_result['description']
-            post.cost = post_result['cost']
-            post.budget = post_result['budget']
+        shots = list()
+        import requests
+        url = "{}/shot_list".format(self._database_server_url)
+        try:
+            response = requests.get(url)
+            result = response.json()
+        except ConnectionRefusedError as e:
+            raise
+        for block in result:
+            print('converting dict into entity class')
+            shot = ShotEntity()
+            shot.id = block['id']
+            shot.title = block['title']
+            shot.description = block['description']
 
-            posts.append(post)
-        return posts
-
-    def create_shot(self, shot):
-        connection = self.get_connection()
-        if not connection:
-            raise Exception('connection not instantiated.')
-        connection.execute('INSERT INTO shots (title, description, budget, cost) VALUES (?, ?, ?, ?)',
-                     (shot.title, shot.description, 0, 0))
-        connection.commit()
-        connection.close()
-
-    def update_shot(self, shot):
-        connection = self.get_connection()
-        if not connection:
-            raise Exception('connection not instantiated.')
-        connection.execute('UPDATE shots SET title = ?, description = ?'
-                     ' WHERE id = ?',
-                     (shot.title, shot.description, shot.id))
-        connection.commit()
-        connection.close()
-
-    def delete_shot(self, shot):
-        connection = self.get_connection()
-        if not connection:
-            raise Exception('connection not instantiated.')
-        connection.execute('DELETE FROM shots WHERE id = ?', (shot.id,))
-        connection.commit()
-        connection.close()
+            shots.append(shot)
+        return shots
