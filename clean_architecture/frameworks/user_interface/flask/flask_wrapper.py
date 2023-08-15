@@ -85,9 +85,3 @@ class FlaskAppWrapper(object):
     def run(self, **kwargs):
         self.app.run(**kwargs)
 
-
-if __name__ == "__main__":
-
-    database = SqlLiteDatabase()
-    app = FlaskAppWrapper(database)
-    app.run(debug=True)
