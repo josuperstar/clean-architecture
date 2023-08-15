@@ -29,13 +29,8 @@ class FlaskCachingDatabaseServer(object):
             shot = self._database.get_shot(shot_id)
             if shot is None:
                 abort(404)
-            shot_dictionary = dict()
-            shot_dictionary['id'] = shot.id
-            shot_dictionary['title'] = shot.title
-            shot_dictionary['description'] = shot.description
-
+            shot_dictionary = self.shot_to_dictionary(shot)
             print('result: {}'.format(shot_dictionary))
-
             return shot_dictionary
 
         @self.app.route('/shot_list')
@@ -46,13 +41,19 @@ class FlaskCachingDatabaseServer(object):
             shots = self._database.get_shot_list()
             result = list()
             for shot in shots:
-                shot_dictionary = dict()
-                shot_dictionary['id'] = shot.id
-                shot_dictionary['title'] = shot.title
-                shot_dictionary['description'] = shot.description
+                shot_dictionary = self.shot_to_dictionary(shot)
                 result.append(shot_dictionary)
-
             return result
+
+    @staticmethod
+    def shot_to_dictionary(shot_entity):
+        shot_dictionary = dict()
+        shot_dictionary['id'] = shot_entity.id
+        shot_dictionary['title'] = shot_entity.title
+        shot_dictionary['description'] = shot_entity.description
+        shot_dictionary['cost'] = shot_entity.cost
+        shot_dictionary['budget'] = shot_entity.budget
+        return shot_dictionary
 
     def run(self, **kwargs):
         self.app.run(**kwargs)

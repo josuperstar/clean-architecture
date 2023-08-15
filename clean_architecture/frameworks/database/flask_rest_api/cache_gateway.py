@@ -31,10 +31,7 @@ class FlaskCacheGateway(SqlGateway):
         except ConnectionRefusedError as e:
             raise
         print('converting dict into entity class')
-        shot = ShotEntity()
-        shot.id = result['id']
-        shot.title = result['title']
-        shot.description = result['description']
+        shot = self.dictionary_to_shot(result)
         return shot
 
     def get_shot_list(self):
@@ -46,12 +43,18 @@ class FlaskCacheGateway(SqlGateway):
             result = response.json()
         except ConnectionRefusedError as e:
             raise
-        for block in result:
+        for shot_dictionary in result:
             print('converting dict into entity class')
-            shot = ShotEntity()
-            shot.id = block['id']
-            shot.title = block['title']
-            shot.description = block['description']
-
+            shot = self.dictionary_to_shot(shot_dictionary)
             shots.append(shot)
         return shots
+
+    @staticmethod
+    def dictionary_to_shot(shot_dictionary):
+        shot_entity = ShotEntity()
+        shot_entity.id = shot_dictionary['id']
+        shot_entity.title = shot_dictionary['title']
+        shot_entity.description = shot_dictionary['description']
+        shot_entity.cost = shot_dictionary['cost']
+        shot_entity.budget = shot_dictionary['budget']
+        return shot_entity

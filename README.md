@@ -48,4 +48,14 @@ python clean-architecture\clean_architecture\frameworks\user_interface\qt\app.py
 ## Simple UML class diagram
 In the following figure, we can see that all the dependencies are towards abstraction,
 from the bottom (the outer circle of clean architecture) to the top (the inner circle).
-![uml.png](uml.png)
+![uml.png](doc/uml.png)
+
+## Adding a caching system to the tool
+
+We received a new feature request where we are ask to improve performance
+when listing information. Therefore, adding a caching approach seems to be 
+the right solution. In this case, we only need to add two new classes in 
+the framework layer: one for the caching server REST API and the other one is the
+caching gateway, as illustrated in the next figure.
+
+![uml_with_caching.png](doc%2Fuml_with_caching.png)
