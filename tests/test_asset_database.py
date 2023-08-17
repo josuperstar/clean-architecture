@@ -18,9 +18,10 @@ class Testing(unittest.TestCase):
         asset_id = 1
         sql = SqlLiteDatabase()
 
-        shots = sql.get_shot_by_asset(asset_id)
+        shots = sql.get_shots_by_asset(asset_id)
         for shot in shots:
             print(shot.title)
+
 
 if __name__ == '__main__':
     unittest.main()

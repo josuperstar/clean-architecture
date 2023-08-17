@@ -1,8 +1,11 @@
+from clean_architecture.business_entities.asset import AssetEntity
 from clean_architecture.business_entities.shot import ShotEntity
 
+from clean_architecture.adapters.presenters.asset import AssetPresenter
 from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.adapters.presenters.finance_shot import FinanceShotPresenter
 
+from clean_architecture.use_cases.shot_management.show_asset_detail_use_case import ShowAssetDetailUseCase
 from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
 from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
@@ -14,7 +17,17 @@ from clean_architecture.use_cases.shot_finance.show_shot_detail_use_case import 
 from clean_architecture.use_cases.shot_finance.list_shot_finance_use_case import ListShotFianceUseCase
 
 
-def boundary_to_presenter(boundary):
+def asset_boundary_to_presenter(boundary):
+    presenter = AssetPresenter()
+    presenter.id = boundary.id
+    presenter.name = boundary.name
+    presenter.description = boundary.description
+    presenter.name_is_correct = boundary.name_is_correct
+    presenter.created = boundary.created
+    return presenter
+
+
+def shot_boundary_to_presenter(boundary):
     presenter = ShotPresenter()
     presenter.id = boundary.id
     presenter.title = boundary.title
@@ -42,13 +55,22 @@ class ShotController(object):
     def __init__(self, database):
         self._database = database
 
+    def get_asset(self, asset_id):
+        asset_info = AssetEntity()
+        asset_info.id = asset_id
+        use_case = ShowAssetDetailUseCase(self._database)
+        use_case.set_asset_info(asset_info)
+        shot = use_case.execute()
+        presenter = asset_boundary_to_presenter(shot)
+        return presenter
+
     def get_shot(self, shot_id):
         shot_info = ShotEntity()
         shot_info.id = shot_id
         use_case = ShowShotDetailUseCase(self._database)
         use_case.set_shot_info(shot_info)
         shot = use_case.execute()
-        presenter = boundary_to_presenter(shot)
+        presenter = shot_boundary_to_presenter(shot)
         return presenter
 
     def create_shot(self, shot_info):
@@ -80,7 +102,7 @@ class ShotController(object):
         posts = list_post.execute()
         list_of_presenters = list()
         for post in posts:
-            presenter = boundary_to_presenter(post)
+            presenter = shot_boundary_to_presenter(post)
             list_of_presenters.append(presenter)
         return list_of_presenters
 

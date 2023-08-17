@@ -1,11 +1,23 @@
 import unittest
 
+from clean_architecture.business_entities.asset import AssetEntity
 from clean_architecture.business_entities.shot import ShotEntity
 
 
 class Testing(unittest.TestCase):
 
     def test_business_rules(self):
+
+        asset_a = AssetEntity()
+        asset_a.name = 'test_name_a'
+        asset_a.description = 'this is a description'
+
+        asset_b = AssetEntity()
+        asset_b.name = 'test_name_a'
+        asset_b.description = 'this is a description'
+
+        asset_is_unique = asset_b.check_if_name_is_unique([asset_a])
+        self.assertEqual(asset_is_unique, False)
 
         shot_a = ShotEntity()
         shot_a.title = 'testA'

@@ -1,6 +1,7 @@
 
 from clean_architecture.use_cases.business_entity_gateway import BusinessEntityGateway
 from clean_architecture.business_entities.shot import ShotEntity
+from clean_architecture.business_entities.asset import AssetEntity
 
 
 class SqlGateway(BusinessEntityGateway):
@@ -19,14 +20,14 @@ class SqlGateway(BusinessEntityGateway):
         if asset_result is None:
             return None
 
-        shot = ShotEntity()
-        shot.id = asset_result['id']
-        shot.created = asset_result['created']
-        shot.title = asset_result['name']
-        shot.description = asset_result['description']
-        shot.cost = asset_result['cost']
+        asset = AssetEntity()
+        asset.id = asset_result['id']
+        asset.created = asset_result['created']
+        asset.title = asset_result['name']
+        asset.description = asset_result['description']
+        asset.cost = asset_result['cost']
 
-        return shot
+        return asset
 
     def get_shot(self, shot_id):
         connection = self.get_connection()
@@ -69,7 +70,7 @@ class SqlGateway(BusinessEntityGateway):
             shots.append(shot)
         return shots
 
-    def get_shot_by_asset(self, asset_id):
+    def get_shots_by_asset(self, asset_id):
         connection = self.get_connection()
         if not connection:
             raise Exception('connection not instantiated.')
@@ -78,8 +79,9 @@ class SqlGateway(BusinessEntityGateway):
         SELECT shots.id, title, shots.description, shots.cost, shots.created, budget FROM shots
         JOIN shot_asset_relationships ON shots.id = shot_reference
         JOIN assets ON shot_asset_relationships.asset_reference = assets.id
+        WHERE assets.id = {}
         ORDER BY title;
-        """
+        """.format(asset_id)
         posts_result = connection.execute(query).fetchall()
         connection.close()
         shots = list()

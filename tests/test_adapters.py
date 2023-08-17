@@ -3,6 +3,7 @@ import unittest
 
 from unittest.mock import Mock
 
+from clean_architecture.business_entities.asset import AssetEntity
 from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.adapters.presenters.finance_shot import FinanceShotPresenter
@@ -23,14 +24,31 @@ class Testing(unittest.TestCase):
 
         return shot_a
 
+    @staticmethod
+    def get_asset_test():
+        asset_a = AssetEntity()
+        asset_a.id = 0
+        asset_a.name = 'test_asset_a'
+        asset_a.description = 'description test'
+        asset_a.created = datetime.datetime.now()
+        asset_a.cost = 200
+
+        return asset_a
+
     def test_shot_controller(self):
         shot_a = self.get_shot_test()
         expected_shot_list = [shot_a]
 
+        asset_a = self.get_asset_test()
+
         database = Mock()
         database.get_shot_list.return_value = expected_shot_list
+        database.get_asset.return_value = asset_a
 
         controller = ShotController(database)
+
+        asset = controller.get_asset(0)
+        self.assertEqual(asset.name, asset_a.name)
 
         shot_list = controller.get_shot_list()
         self.assertEqual(len(shot_list), 1)
@@ -46,6 +64,12 @@ class Testing(unittest.TestCase):
         controller.update_shot(shot_info)
         controller.delete_shot(shot_info)
 
+    def test_get_shot_by_asset(self):
+        shot_a = self.get_shot_test()
+        expected_shot_list = [shot_a]
+
+        database = Mock()
+        database.get_shots_by_asset.return_value = expected_shot_list
 
     def test_shot_finance_controller(self):
         shot_a = self.get_shot_test()

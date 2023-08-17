@@ -1,5 +1,8 @@
 class BusinessEntityGateway(object):
 
+    def get_asset(self, asset_id):
+        raise NotImplemented
+
     def get_shot(self, shot_id):
         pass
 
