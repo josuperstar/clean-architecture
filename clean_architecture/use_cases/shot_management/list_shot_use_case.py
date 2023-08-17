@@ -8,20 +8,20 @@ class ListShotUseCase(UseCase):
         super().__init__(gateway)
 
     def execute(self):
-        print('List post use case')
-        post_boundaries = list()
-        posts = self._gateway.get_shot_list()
-        for post in posts:
+        print('List shot use case')
+        shot_boundaries = list()
+        shots = self._gateway.get_shot_list()
+        for shot in shots:
             shot_entity = ShotEntity()
-            shot_entity.title = post.title
-            shot_entity.description = post.description
+            shot_entity.title = shot.title
+            shot_entity.description = shot.description
             is_tittle_okay = shot_entity.title_sanity_check()
             post_boundary = ShotBoundary()
-            post_boundary.id = post.id
-            post_boundary.title = post.title
-            post_boundary.description = post.description
-            post_boundary.created = post.created
+            post_boundary.id = shot.id
+            post_boundary.title = shot.title
+            post_boundary.description = shot.description
+            post_boundary.created = shot.created
             post_boundary.title_is_correct = is_tittle_okay
 
-            post_boundaries.append(post_boundary)
-        return post_boundaries
+            shot_boundaries.append(post_boundary)
+        return shot_boundaries

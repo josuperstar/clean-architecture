@@ -8,25 +8,25 @@ class MySqlGateway(BusinessEntityGateway):
         raise NotImplemented
 
     def get_shot(self, shot_id):
-        print('get post')
+        print('get shot')
         connection = self.get_db_connection()
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM element WHERE id = %s',
                             (shot_id,))
-        post_result = cursor.fetchone()
+        shot_result = cursor.fetchone()
         connection.close()
-        if post_result is None:
+        if shot_result is None:
             return None
 
         post = ShotEntity()
-        post.id = post_result[0]
-        post.created = post_result[1]
-        post.title = post_result[2]
-        post.description = post_result[3]
-        if post_result[4]:
-            post.cost = post_result[4]
-        if post_result[5]:
-            post.budget = post_result[5]
+        post.id = shot_result[0]
+        post.created = shot_result[1]
+        post.title = shot_result[2]
+        post.description = shot_result[3]
+        if shot_result[4]:
+            post.cost = shot_result[4]
+        if shot_result[5]:
+            post.budget = shot_result[5]
 
         return post
 
@@ -35,22 +35,22 @@ class MySqlGateway(BusinessEntityGateway):
         conn = self.get_db_connection()
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM element')
-        posts_result = cursor.fetchall()
+        shots_result = cursor.fetchall()
         conn.close()
-        posts = list()
-        for post_result in posts_result:
-            print(post_result)
-            post = ShotEntity()
-            post.id = post_result[0]
-            post.created = post_result[1]
-            post.title = post_result[2]
-            post.description = post_result[3]
-            if post_result[4]:
-                post.cost = post_result[4]
-            if post_result[5]:
-                post.budget = post_result[5]
-            posts.append(post)
-        return posts
+        shots = list()
+        for shot_result in shots_result:
+            print(shot_result)
+            shot = ShotEntity()
+            shot.id = shot_result[0]
+            shot.created = shot_result[1]
+            shot.title = shot_result[2]
+            shot.description = shot_result[3]
+            if shot_result[4]:
+                shot.cost = shot_result[4]
+            if shot_result[5]:
+                shot.budget = shot_result[5]
+            shots.append(shot)
+        return shots
 
     def create_shot(self, shot):
         conn = self.get_db_connection()
