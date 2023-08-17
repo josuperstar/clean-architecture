@@ -13,7 +13,19 @@ cur.execute("INSERT INTO shots (title, description, cost, budget) VALUES (?, ?, 
             )
 
 cur.execute("INSERT INTO shots (title, description, cost, budget) VALUES (?, ?, ?, ?)",
-            ('Second Shot', 'Description for the second shot', 200,100)
+            ('Second Shot', 'Description for the second shot', 200, 100)
+            )
+
+cur.execute("INSERT INTO assets (name, description, cost) VALUES (?, ?, ?)",
+            ('Primary Asset', 'Description for the second shot', 50)
+            )
+
+cur.execute("INSERT INTO shot_asset_relationships (shot_reference, asset_reference) VALUES (?, ?)",
+            (1,1)
+            )
+
+cur.execute("INSERT INTO shot_asset_relationships (shot_reference, asset_reference) VALUES (?, ?)",
+            (2,1)
             )
 
 connection.commit()

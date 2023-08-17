@@ -8,6 +8,26 @@ class SqlGateway(BusinessEntityGateway):
     def get_connection(self):
         raise NotImplemented
 
+    def get_asset(self, asset_id):
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        print('get shot')
+        asset_result = connection.execute('SELECT * FROM assets WHERE id = ?',
+                            (asset_id,)).fetchone()
+        connection.close()
+        if asset_result is None:
+            return None
+
+        shot = ShotEntity()
+        shot.id = asset_result['id']
+        shot.created = asset_result['created']
+        shot.title = asset_result['name']
+        shot.description = asset_result['description']
+        shot.cost = asset_result['cost']
+
+        return shot
+
     def get_shot(self, shot_id):
         connection = self.get_connection()
         if not connection:
@@ -34,6 +54,33 @@ class SqlGateway(BusinessEntityGateway):
         if not connection:
             raise Exception('connection not instantiated.')
         posts_result = connection.execute('SELECT * FROM shots').fetchall()
+        connection.close()
+        shots = list()
+        for shot_result in posts_result:
+            print(shot_result)
+            shot = ShotEntity()
+            shot.id = shot_result['id']
+            shot.created = shot_result['created']
+            shot.title = shot_result['title']
+            shot.description = shot_result['description']
+            shot.cost = shot_result['cost']
+            shot.budget = shot_result['budget']
+
+            shots.append(shot)
+        return shots
+
+    def get_shot_by_asset(self, asset_id):
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+
+        query = """
+        SELECT shots.id, title, shots.description, shots.cost, shots.created, budget FROM shots
+        JOIN shot_asset_relationships ON shots.id = shot_reference
+        JOIN assets ON shot_asset_relationships.asset_reference = assets.id
+        ORDER BY title;
+        """
+        posts_result = connection.execute(query).fetchall()
         connection.close()
         shots = list()
         for shot_result in posts_result:
