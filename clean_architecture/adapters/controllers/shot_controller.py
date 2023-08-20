@@ -6,6 +6,8 @@ from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.adapters.presenters.finance_shot import FinanceShotPresenter
 
 from clean_architecture.use_cases.shot_management.show_asset_detail_use_case import ShowAssetDetailUseCase
+from clean_architecture.use_cases.asset_management.list_asset_use_case import ListAssetUseCase
+from clean_architecture.use_cases.asset_management.create_asset_use_case import CreateAssetUseCase
 from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
 from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
@@ -60,9 +62,14 @@ class ShotController(object):
         asset_info.id = asset_id
         use_case = ShowAssetDetailUseCase(self._database)
         use_case.set_asset_info(asset_info)
-        shot = use_case.execute()
-        presenter = asset_boundary_to_presenter(shot)
+        asset = use_case.execute()
+        presenter = asset_boundary_to_presenter(asset)
         return presenter
+
+    def create_asset(self, asset_info):
+        create_asset_use_case = CreateAssetUseCase(self._database)
+        create_asset_use_case.set_asset_info(asset_info)
+        create_asset_use_case.execute()
 
     def get_shot(self, shot_id):
         shot_info = ShotEntity()
@@ -104,6 +111,17 @@ class ShotController(object):
         for post in posts:
             presenter = shot_boundary_to_presenter(post)
             list_of_presenters.append(presenter)
+        return list_of_presenters
+
+    def get_asset_list(self):
+        list_asset = ListAssetUseCase(self._database)
+        assets = list_asset.execute()
+        list_of_presenters = list()
+        for asset in assets:
+            print(asset.name)
+            presenter = asset_boundary_to_presenter(asset)
+            list_of_presenters.append(presenter)
+            print('asset name: {}'.format(presenter.name))
         return list_of_presenters
 
     def get_shot_list_with_financial_data(self):

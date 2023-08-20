@@ -13,7 +13,7 @@ class SqlGateway(BusinessEntityGateway):
         connection = self.get_connection()
         if not connection:
             raise Exception('connection not instantiated.')
-        print('get shot')
+        print('get asset')
         asset_result = connection.execute('SELECT * FROM assets WHERE id = ?',
                             (asset_id,)).fetchone()
         connection.close()
@@ -23,11 +23,38 @@ class SqlGateway(BusinessEntityGateway):
         asset = AssetEntity()
         asset.id = asset_result['id']
         asset.created = asset_result['created']
-        asset.title = asset_result['name']
+        asset.name = asset_result['name']
         asset.description = asset_result['description']
         asset.cost = asset_result['cost']
 
         return asset
+
+    def get_asset_list(self):
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        print('get asset')
+        assets_result = connection.execute('SELECT * FROM assets').fetchall()
+        connection.close()
+        assets = list()
+        for asset_result in assets_result:
+            asset = AssetEntity()
+            asset.id = asset_result['id']
+            asset.created = asset_result['created']
+            asset.name = asset_result['name']
+            asset.description = asset_result['description']
+            asset.cost = asset_result['cost']
+            assets.append(asset)
+        return assets
+
+    def create_asset(self, asset):
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        connection.execute('INSERT INTO assets (name, description, cost) VALUES (?, ?, ?)',
+                     (asset.name, asset.description, 0))
+        connection.commit()
+        connection.close()
 
     def get_shot(self, shot_id):
         connection = self.get_connection()

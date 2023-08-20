@@ -86,6 +86,23 @@ class Testing(unittest.TestCase):
         shot_presenter = result[0]
         self.assertEqual(shot_presenter.title_color, 'red')
 
+    def test_asset_controller(self):
+        asset_a = self.get_asset_test()
+        expected_asset_list = [asset_a]
+
+        database = Mock()
+        database.get_asset_list.return_value = expected_asset_list
+        database.get_asset.return_value = asset_a
+
+        controller = ShotController(database)
+
+        asset = controller.get_asset(0)
+        self.assertEqual(asset.name, asset_a.name)
+
+        assets = controller.get_asset_list()
+        self.assertTrue(len(assets),1)
+        self.assertEqual(assets[0].name, 'test_asset_a')
+
 
 if __name__ == '__main__':
     unittest.main()

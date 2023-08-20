@@ -8,6 +8,7 @@ from clean_architecture.business_entities.shot import ShotEntity
 from clean_architecture.use_cases.shot_management.show_asset_detail_use_case import ShowAssetDetailUseCase
 from clean_architecture.use_cases.shot_management.show_shot_detail_use_case import ShowShotDetailUseCase
 from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
+from clean_architecture.use_cases.asset_management.list_asset_use_case import ListAssetUseCase
 from clean_architecture.use_cases.shot_finance.show_shot_detail_use_case import ShowShotFinanceDetailUseCase
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
 from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCase
@@ -72,6 +73,16 @@ class Testing(unittest.TestCase):
         database = Mock()
         database.get_shot_list.return_value = shot_list
         use_case = ListShotUseCase(database)
+        result = use_case.execute()
+        self.assertEqual(len(result), 1)
+
+    def test_list_assets_use_case(self):
+        asset_a = self.get_asset_test()
+        asset_list = [asset_a]
+
+        database = Mock()
+        database.get_asset_list.return_value = asset_list
+        use_case = ListAssetUseCase(database)
         result = use_case.execute()
         self.assertEqual(len(result), 1)
 
