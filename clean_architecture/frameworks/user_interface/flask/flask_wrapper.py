@@ -36,8 +36,8 @@ class FlaskAppWrapper(object):
             return render_template('accounting_shot.html', shot=shot)
 
         @self.app.route('/<int:shot_id>')
-        def shot(post_id):
-            shot = self.shot_controller.get_shot(post_id)
+        def shot(shot_id):
+            shot = self.shot_controller.get_shot(shot_id)
             if shot is None:
                 abort(404)
             return render_template('shot.html', shot=shot)

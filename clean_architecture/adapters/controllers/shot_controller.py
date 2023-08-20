@@ -40,6 +40,11 @@ def shot_boundary_to_presenter(boundary):
     presenter.title_size = 'h3'
     presenter.title_is_correct = boundary.title_is_correct
     presenter.created = boundary.created
+    asset_presenters = list()
+    for asset in boundary.assets:
+        asset_presenter = asset_boundary_to_presenter(asset)
+        asset_presenters.append(asset_presenter)
+    presenter.assets = asset_presenters
     return presenter
 
 

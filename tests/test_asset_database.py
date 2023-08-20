@@ -22,6 +22,14 @@ class Testing(unittest.TestCase):
         for shot in shots:
             print(shot.title)
 
+    def test_get_assets_by_shot(self):
+        print('test get assets by shot')
+        shot_id = 1
+        sql = SqlLiteDatabase()
+
+        assets = sql.get_assets_by_shot(shot_id)
+        for asset in assets:
+            print(asset.name)
 
 if __name__ == '__main__':
     unittest.main()

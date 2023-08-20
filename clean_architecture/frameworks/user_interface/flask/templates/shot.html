@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>{% block title %} {{ post['title'] }} {% endblock %}</h2>
+    <h2>{% block title %} {{ shot['title'] }} {% endblock %}</h2>
     <span class="badge badge-primary">{{ shot['created'] }}</span>
     <p>{{ shot.description }}</p>
     <p>{{ shot.budget }}</p>
     <p>{{ shot.cost }}</p>
+    <br> Linked assets:<br>
+    {% for asset in shot.assets %}
+        <a href="{{ url_for('asset', asset_id=asset.id) }}">
+            {{ asset.name }}
+        </a><br>
+    {% endfor %}
+
 {% endblock %}

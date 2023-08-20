@@ -26,8 +26,7 @@ class Testing(unittest.TestCase):
 
         return asset_a
 
-    @staticmethod
-    def get_shot_test():
+    def get_shot_test(self):
         shot_a = ShotEntity()
         shot_a.id = 0
         shot_a.title = 'testA'
@@ -35,6 +34,8 @@ class Testing(unittest.TestCase):
         shot_a.created = datetime.datetime.now()
         shot_a.cost = 100
         shot_a.budget = 200
+        asset_a = self.get_asset_test()
+        shot_a.assets = [asset_a]
 
         return shot_a
 
@@ -53,12 +54,14 @@ class Testing(unittest.TestCase):
 
     def test_show_shot_detail_use_case(self):
         shot_a = self.get_shot_test()
+        asset_a = self.get_asset_test()
 
         shot_info = ShotEntity()
         shot_info.id = 0
 
         database = Mock()
         database.get_shot.return_value = shot_a
+        database.get_assets_by_shot.return_value = []
         use_case = ShowShotDetailUseCase(database)
         use_case.set_shot_info(shot_info)
         result = use_case.execute()

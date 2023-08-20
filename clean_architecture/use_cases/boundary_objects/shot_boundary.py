@@ -1,4 +1,5 @@
 from datetime import datetime
+from clean_architecture.use_cases.boundary_objects.asset_boundary import AssetBoundary
 
 
 class ShotBoundary(object):
@@ -10,6 +11,7 @@ class ShotBoundary(object):
     def __init__(self):
         self.title = 'no_title'
         self._title_is_correct = True
+        self.assets = list()
 
     @property
     def title_is_correct(self):
@@ -18,3 +20,4 @@ class ShotBoundary(object):
     @title_is_correct.setter
     def title_is_correct(self, value):
         self._title_is_correct = value
+

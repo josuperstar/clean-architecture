@@ -115,6 +115,31 @@ class SqlGateway(BusinessEntityGateway):
             shots.append(shot)
         return shots
 
+    def get_assets_by_shot(self, shot_id):
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+
+        query = """
+        SELECT assets.id, assets.name, assets.created, assets.description, assets.cost FROM assets
+        JOIN shot_asset_relationships ON assets.id = asset_reference
+        JOIN shots ON shot_asset_relationships.shot_reference = shots.id
+        WHERE assets.id = {};
+        """.format(shot_id)
+        posts_result = connection.execute(query).fetchall()
+        connection.close()
+        assets = list()
+        for asset_result in posts_result:
+            print(asset_result)
+            asset = AssetEntity()
+            asset.id = asset_result['id']
+            asset.created = asset_result['created']
+            asset.name = asset_result['name']
+            asset.description = asset_result['description']
+            asset.cost = asset_result['cost']
+            assets.append(asset)
+        return assets
+
     def get_shots_by_asset(self, asset_id):
         connection = self.get_connection()
         if not connection:
