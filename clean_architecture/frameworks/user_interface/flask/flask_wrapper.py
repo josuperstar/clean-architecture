@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 
 from clean_architecture.adapters.controllers.shot_controller import *
-from clean_architecture.frameworks.database.sqllite.sqllite_database import SqlLiteDatabase
 
 
 class FlaskAppWrapper(object):
