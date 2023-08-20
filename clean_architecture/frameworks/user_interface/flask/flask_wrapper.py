@@ -81,11 +81,36 @@ class FlaskAppWrapper(object):
                     asset_info.description = description
                     try:
                         self.shot_controller.create_asset(asset_info)
-                        return redirect(url_for('index'))
+                        return redirect(url_for('assets'))
                     except Exception as e:
                         flash(e)
 
             return render_template('create_asset.html')
+
+        @self.app.route('/assets/<int:id>/edit_asset', methods=('GET', 'POST'))
+        def edit_asset(id):
+            asset = self.shot_controller.get_asset(id)
+            if request.method == 'POST':
+                name = request.form['name']
+                description = request.form['description']
+                asset = AssetEntity()
+                asset.id = id
+                asset.name = name
+                asset.description = description
+                if not name:
+                    flash('Name is required!')
+                else:
+                    self.shot_controller.update_asset(asset)
+                    return redirect(url_for('assets'))
+
+            return render_template('assets/edit_asset.html', asset=asset)
+
+        @self.app.route('/assets/<int:id>/delete_asset', methods=('POST',))
+        def delete_asset(id):
+            asset_info = self.shot_controller.get_asset(id)
+            self.shot_controller.delete_asset(asset_info)
+            flash('"{}" was successfully deleted!'.format(asset_info.name))
+            return redirect(url_for('assets'))
 
         @self.app.route('/<int:id>/edit_shot', methods=('GET', 'POST'))
         def edit_shot(id):

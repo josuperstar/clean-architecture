@@ -6,6 +6,12 @@ class BusinessEntityGateway(object):
     def get_asset_list(self):
         raise NotImplemented
 
+    def update_asset(self, asset):
+        raise NotImplemented
+
+    def delete_asset(self, asset):
+        raise NotImplemented
+
     def get_shot(self, shot_id):
         pass
 

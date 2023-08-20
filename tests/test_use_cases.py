@@ -5,14 +5,12 @@ from unittest.mock import Mock
 
 from clean_architecture.business_entities.asset import AssetEntity
 from clean_architecture.business_entities.shot import ShotEntity
-from clean_architecture.use_cases.shot_management.show_asset_detail_use_case import ShowAssetDetailUseCase
+from use_cases.asset_management.show_asset_detail_use_case import ShowAssetDetailUseCase
 from clean_architecture.use_cases.shot_management.show_shot_detail_use_case import ShowShotDetailUseCase
 from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
 from clean_architecture.use_cases.asset_management.list_asset_use_case import ListAssetUseCase
 from clean_architecture.use_cases.shot_finance.show_shot_detail_use_case import ShowShotFinanceDetailUseCase
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
-from clean_architecture.use_cases.shot_management.update_shot_use_case import UpdateShotUseCase
-from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
 
 
 class Testing(unittest.TestCase):

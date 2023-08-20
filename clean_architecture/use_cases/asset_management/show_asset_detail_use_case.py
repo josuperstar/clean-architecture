@@ -16,7 +16,7 @@ class ShowAssetDetailUseCase(UseCase):
             raise Exception('shot info was not provided')
 
         asset = self._gateway.get_asset(self._asset_info.id)
-        print('fetch asset {}'.format(asset.name))
+        print('fetch asset {} - {}'.format(asset.name, asset.description))
         asset_entity = AssetEntity()
         asset_entity.name = asset.name
         asset_entity.description = asset.description

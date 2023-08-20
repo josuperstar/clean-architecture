@@ -56,6 +56,24 @@ class SqlGateway(BusinessEntityGateway):
         connection.commit()
         connection.close()
 
+    def update_asset(self, asset):
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        connection.execute('UPDATE assets SET name = ?, description = ?'
+                     ' WHERE id = ?',
+                     (asset.name, asset.description, asset.id))
+        connection.commit()
+        connection.close()
+
+    def delete_asset(self, asset):
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        connection.execute('DELETE FROM assets WHERE id = ?', (asset.id,))
+        connection.commit()
+        connection.close()
+
     def get_shot(self, shot_id):
         connection = self.get_connection()
         if not connection:

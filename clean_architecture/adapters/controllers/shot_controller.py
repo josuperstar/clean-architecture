@@ -5,9 +5,12 @@ from clean_architecture.adapters.presenters.asset import AssetPresenter
 from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.adapters.presenters.finance_shot import FinanceShotPresenter
 
-from clean_architecture.use_cases.shot_management.show_asset_detail_use_case import ShowAssetDetailUseCase
+from clean_architecture.use_cases.asset_management.show_asset_detail_use_case import ShowAssetDetailUseCase
 from clean_architecture.use_cases.asset_management.list_asset_use_case import ListAssetUseCase
 from clean_architecture.use_cases.asset_management.create_asset_use_case import CreateAssetUseCase
+from clean_architecture.use_cases.asset_management.update_asset_use_case import UpdateAssetUseCase
+from clean_architecture.use_cases.asset_management.delete_asset_use_case import DeleteAssetUseCase
+
 from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
 from clean_architecture.use_cases.shot_management.delete_shot_use_case import DeleteShotUseCase
@@ -70,6 +73,16 @@ class ShotController(object):
         create_asset_use_case = CreateAssetUseCase(self._database)
         create_asset_use_case.set_asset_info(asset_info)
         create_asset_use_case.execute()
+
+    def update_asset(self, asset_info):
+        update_asset_use_case = UpdateAssetUseCase(self._database)
+        update_asset_use_case.set_asset_info(asset_info)
+        update_asset_use_case.execute()
+
+    def delete_asset(self, asset_info):
+        delete_asset_use_case = DeleteAssetUseCase(self._database)
+        delete_asset_use_case.set_asset_info(asset_info)
+        delete_asset_use_case.execute()
 
     def get_shot(self, shot_id):
         shot_info = ShotEntity()
