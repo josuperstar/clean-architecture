@@ -31,5 +31,6 @@ class Testing(unittest.TestCase):
         for asset in assets:
             print(asset.name)
 
+
 if __name__ == '__main__':
     unittest.main()

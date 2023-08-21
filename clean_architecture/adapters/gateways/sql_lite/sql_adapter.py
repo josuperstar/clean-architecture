@@ -194,3 +194,13 @@ class SqlGateway(BusinessEntityGateway):
         connection.execute('DELETE FROM shots WHERE id = ?', (shot.id,))
         connection.commit()
         connection.close()
+
+    def link_shot_to_asset(self, asset_id, shot_id):
+
+        connection = self.get_connection()
+        if not connection:
+            raise Exception('connection not instantiated.')
+        connection.execute('INSERT INTO shot_asset_relationships (shot_reference, asset_reference) VALUES (?, ?)',
+                     (shot_id, asset_id))
+        connection.commit()
+        connection.close()

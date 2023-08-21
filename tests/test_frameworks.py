@@ -14,6 +14,15 @@ class Testing(unittest.TestCase):
         shot = sql.get_shot(shot_id)
         print(shot)
 
+    def test_assets_per_shot(self):
+        sql = SqlLiteDatabase()
+        shots = sql.get_shot_list()
+        for shot in shots:
+            assets = sql.get_assets_by_shot(shot.id)
+            print('assets for shot {}:'.format(shot.title))
+            for asset in assets:
+                print("- {}".format(asset.name))
+
     def test_cached_shot(self):
         """
         This test works only when the flask database server is running
