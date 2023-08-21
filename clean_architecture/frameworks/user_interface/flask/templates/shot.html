@@ -6,4 +6,11 @@
     <p>{{ shot.description }}</p>
     <p>{{ shot.budget }}</p>
     <p>{{ shot.cost }}</p>
+    <br> Linked assets:<br>
+    {% for asset in shot.assets %}
+        <a href="{{ url_for('asset', asset_id=asset.id) }}">
+            {{ asset.name }}
+        </a><br>
+    {% endfor %}
+
 {% endblock %}

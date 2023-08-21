@@ -10,6 +10,7 @@ class ShotEntity(object):
         self.budget = 0
         self.title = str()
         self.description = str()
+        self.assets = list()
 
     def check_if_title_is_unique(self, existing_shots):
         for shot in existing_shots:

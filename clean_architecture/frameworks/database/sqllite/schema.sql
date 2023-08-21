@@ -8,3 +8,13 @@ CREATE TABLE shots (
     cost INTEGER,
     budget INTEGER
 );
+
+CREATE TABLE assets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    cost INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS shot_asset_relationships (shot_reference INTEGER, asset_reference INTEGER);

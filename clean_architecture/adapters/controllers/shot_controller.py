@@ -1,7 +1,15 @@
+from clean_architecture.business_entities.asset import AssetEntity
 from clean_architecture.business_entities.shot import ShotEntity
 
+from clean_architecture.adapters.presenters.asset import AssetPresenter
 from clean_architecture.adapters.presenters.shot import ShotPresenter
 from clean_architecture.adapters.presenters.finance_shot import FinanceShotPresenter
+
+from clean_architecture.use_cases.asset_management.show_asset_detail_use_case import ShowAssetDetailUseCase
+from clean_architecture.use_cases.asset_management.list_asset_use_case import ListAssetUseCase
+from clean_architecture.use_cases.asset_management.create_asset_use_case import CreateAssetUseCase
+from clean_architecture.use_cases.asset_management.update_asset_use_case import UpdateAssetUseCase
+from clean_architecture.use_cases.asset_management.delete_asset_use_case import DeleteAssetUseCase
 
 from clean_architecture.use_cases.shot_management.list_shot_use_case import ListShotUseCase
 from clean_architecture.use_cases.shot_management.create_shot_use_case import CreateShotUseCase
@@ -14,7 +22,17 @@ from clean_architecture.use_cases.shot_finance.show_shot_detail_use_case import 
 from clean_architecture.use_cases.shot_finance.list_shot_finance_use_case import ListShotFianceUseCase
 
 
-def boundary_to_presenter(boundary):
+def asset_boundary_to_presenter(boundary):
+    presenter = AssetPresenter()
+    presenter.id = boundary.id
+    presenter.name = boundary.name
+    presenter.description = boundary.description
+    presenter.name_is_correct = boundary.name_is_correct
+    presenter.created = boundary.created
+    return presenter
+
+
+def shot_boundary_to_presenter(boundary):
     presenter = ShotPresenter()
     presenter.id = boundary.id
     presenter.title = boundary.title
@@ -22,6 +40,11 @@ def boundary_to_presenter(boundary):
     presenter.title_size = 'h3'
     presenter.title_is_correct = boundary.title_is_correct
     presenter.created = boundary.created
+    asset_presenters = list()
+    for asset in boundary.assets:
+        asset_presenter = asset_boundary_to_presenter(asset)
+        asset_presenters.append(asset_presenter)
+    presenter.assets = asset_presenters
     return presenter
 
 
@@ -42,13 +65,37 @@ class ShotController(object):
     def __init__(self, database):
         self._database = database
 
+    def get_asset(self, asset_id):
+        asset_info = AssetEntity()
+        asset_info.id = asset_id
+        use_case = ShowAssetDetailUseCase(self._database)
+        use_case.set_asset_info(asset_info)
+        asset = use_case.execute()
+        presenter = asset_boundary_to_presenter(asset)
+        return presenter
+
+    def create_asset(self, asset_info):
+        create_asset_use_case = CreateAssetUseCase(self._database)
+        create_asset_use_case.set_asset_info(asset_info)
+        create_asset_use_case.execute()
+
+    def update_asset(self, asset_info):
+        update_asset_use_case = UpdateAssetUseCase(self._database)
+        update_asset_use_case.set_asset_info(asset_info)
+        update_asset_use_case.execute()
+
+    def delete_asset(self, asset_info):
+        delete_asset_use_case = DeleteAssetUseCase(self._database)
+        delete_asset_use_case.set_asset_info(asset_info)
+        delete_asset_use_case.execute()
+
     def get_shot(self, shot_id):
         shot_info = ShotEntity()
         shot_info.id = shot_id
         use_case = ShowShotDetailUseCase(self._database)
         use_case.set_shot_info(shot_info)
         shot = use_case.execute()
-        presenter = boundary_to_presenter(shot)
+        presenter = shot_boundary_to_presenter(shot)
         return presenter
 
     def create_shot(self, shot_info):
@@ -80,8 +127,19 @@ class ShotController(object):
         posts = list_post.execute()
         list_of_presenters = list()
         for post in posts:
-            presenter = boundary_to_presenter(post)
+            presenter = shot_boundary_to_presenter(post)
             list_of_presenters.append(presenter)
+        return list_of_presenters
+
+    def get_asset_list(self):
+        list_asset = ListAssetUseCase(self._database)
+        assets = list_asset.execute()
+        list_of_presenters = list()
+        for asset in assets:
+            print(asset.name)
+            presenter = asset_boundary_to_presenter(asset)
+            list_of_presenters.append(presenter)
+            print('asset name: {}'.format(presenter.name))
         return list_of_presenters
 
     def get_shot_list_with_financial_data(self):

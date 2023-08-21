@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %}Asset List {% endblock %}</h1>
+    {% for asset in assets %}
+        <a href="{{ url_for('asset', asset_id=asset.id) }}">
+            {{ asset.name }}
+        </a>
+        <span class="badge badge-primary">{{ asset['created'] }}</span>
+        <a href="{{ url_for('edit_asset', id=asset.id) }}">
+            <span class="badge badge-warning">Edit</span>
+        </a>
+        <hr>
+    {% endfor %}
+{% endblock %}

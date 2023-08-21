@@ -2,12 +2,12 @@
 
 {% block content %}
     <h1>{% block title %}Shot List with Financial Data {% endblock %}</h1>
-    {% for post in posts %}
-        <a href="{{ url_for('accounting_shot', post_id=post.id) }}">
-            <{{post.title_size}} style="color:{{post.title_color}}">{{ post.title }}</{{post.title_size}}>
+    {% for shot in shots %}
+        <a href="{{ url_for('accounting_shot', shot_id=shot.id) }}">
+            <{{shot.title_size}} style="color:{{shot.title_color}}">{{ shot.title }}</{{shot.title_size}}>
         </a>
-        <span class="badge badge-primary">{{ post['created'] }}</span>
-        <a href="{{ url_for('edit', id=post.id) }}">
+        <span class="badge badge-primary">{{ shot.created }}</span>
+        <a href="{{ url_for('edit_shot', id=shot.id) }}">
             <span class="badge badge-warning">Edit</span>
         </a>
         <hr>
