@@ -6,7 +6,7 @@ two different databases: one in SqlLite and the other in MySQL, both
 of them using a different schema. 
 For the user interface, we are using
 both QT and Flask (HTML). 
-The specificities on the databases and the user interfaces API have no
+The specificities on the databases and the user interface APIs have no
 impact on the core implementation of the tool, proving that we can
 keep the volatile details outside the core in an easy fashion.
 
@@ -52,9 +52,9 @@ from the bottom (the outer circle of clean architecture) to the top (the inner c
 
 ## Adding a caching system to the tool
 
-We received a new feature request where we are ask to improve performance
+We received a new feature request where we are asked to improve performances
 when listing information. Therefore, adding a caching approach seems to be 
-the right solution. In this case, we only need to add two new classes in 
+the right solution. Thanks to the layered architecture, in this case, we only need to add two new classes in 
 the framework layer: one for the caching server REST API and the other one is the
 caching gateway, as illustrated in the next figure.
 
